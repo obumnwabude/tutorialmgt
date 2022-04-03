@@ -1,7 +1,7 @@
 {
   "hosting": {
-    "target": "learning-booking",
-    "public": "dist/learning-booking",
+    "target": "tutorialmgt",
+    "public": "dist/tutorialmgt",
     "ignore": [
       "**/.*"
     ],

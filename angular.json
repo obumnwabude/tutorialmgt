@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "learning-booking": {
+    "tutorialmgt": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -42,7 +42,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/learning-booking",
+            "outputPath": "dist/tutorialmgt",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -95,10 +95,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "learning-booking:build:production"
+              "browserTarget": "tutorialmgt:build:production"
             },
             "development": {
-              "browserTarget": "learning-booking:build:development"
+              "browserTarget": "tutorialmgt:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -106,7 +106,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "learning-booking:build"
+            "browserTarget": "tutorialmgt:build"
           }
         },
         "test": {
@@ -142,15 +142,15 @@
           "options": {
             "prerender": false,
             "ssr": false,
-            "browserTarget": "learning-booking:build:production",
-            "firebaseProject": "obumshortener",
-            "firebaseHostingSite": "adminobumsh"
+            "browserTarget": "tutorialmgt:build:production",
+            "firebaseProject": "tutorialmgt",
+            "firebaseHostingSite": "tutorialmgt"
           }
         }
       }
     }
   },
-  "defaultProject": "learning-booking",
+  "defaultProject": "tutorialmgt",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }
