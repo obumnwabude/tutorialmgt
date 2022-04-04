@@ -1,3 +1,11 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$accent: mat-palette($mat-light-blue, A200, A100, A400);
+$primary: mat-palette($mat-light-blue);
+$light-theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($light-theme);
+
 * {
   margin: 0;
   padding: 0;
@@ -12,4 +20,23 @@ body {
 body {
   font-size: 16px;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+snack-bar-container.mat-snack-bar-container {
+  display: flex;
+  align-items: center;
+}
+
+.snackbar-success::before {
+  font-family: 'Material Icons';
+  content: '\f013';
+  color: #9ce2b6;
+  margin-right: 8px;
+}
+
+.snackbar-error::before {
+  font-family: 'Material Icons';
+  content: '\e000';
+  color: #fc9494;
+  margin-right: 8px;
 }
