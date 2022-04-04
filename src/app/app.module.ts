@@ -16,10 +16,14 @@ import {
   getStorage
 } from '@angular/fire/storage';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
@@ -47,7 +51,11 @@ const routes: Route[] = [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
     MatSnackBarModule,
+    MatToolbarModule,
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,
     NgxAuthFirebaseUIModule.forRoot(environment.firebase, () => undefined, {

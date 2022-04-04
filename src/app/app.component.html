@@ -5,6 +5,40 @@
 >
 </ngx-ui-loader>
 
-<router-outlet></router-outlet>
+<mat-toolbar navbar>
+  <button
+    mat-icon-button
+    (click)="snav.toggle()"
+    *ngIf="!isLargeScreen && auth.currentUser"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1>TMS</h1>
+</mat-toolbar>
 
-<button mat-raised-button (click)="signOut()">Sign Out</button>
+<mat-sidenav-container>
+  <mat-sidenav
+    #snav
+    [fixedInViewport]="true"
+    [fixedTopGap]="56"
+    [opened]="isLargeScreen"
+    [mode]="isLargeScreen ? 'side' : 'over'"
+    *ngIf="auth.currentUser"
+  >
+    <mat-nav-list>
+      <button mat-button (click)="signOut()">Sign Out</button>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer>
+      <mat-toolbar>
+        <small>&copy; {{ year }} All Rights Reserved</small>
+      </mat-toolbar>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
