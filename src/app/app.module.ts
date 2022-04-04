@@ -16,13 +16,16 @@ import {
 } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
@@ -31,13 +34,16 @@ import {
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './register.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SignInComponent } from './sign-in.component';
+import { StudentComponent } from './student/student.component';
 import { TutorComponent } from './tutor/tutor.component';
 
 const routes: Route[] = [
@@ -54,6 +60,12 @@ const routes: Route[] = [
     data: { authGuardPipe: () => redirectLoggedInTo('/') }
   },
   {
+    path: 'student',
+    component: StudentComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
+  },
+  {
     path: 'tutor',
     component: TutorComponent,
     canActivate: [AuthGuard],
@@ -66,22 +78,27 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    SignInComponent,
     DashboardComponent,
+    RegisterComponent,
+    SchedulerComponent,
+    SignInComponent,
+    StudentComponent,
     TutorComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatDatepickerModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     MatListModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatSnackBarModule,
     MatToolbarModule,
@@ -93,6 +110,7 @@ const routes: Route[] = [
       toastMessageOnAuthError: false,
       toastMessageOnAuthSuccess: false
     }),
+    NgxMaterialTimepickerModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => {
       const auth = getAuth();

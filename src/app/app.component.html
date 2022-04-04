@@ -28,12 +28,23 @@
     <mat-nav-list
       ><a
         mat-list-item
-        [routerLink]="'tutor'"
+        *ngFor="let l of links"
+        [routerLink]="l"
         [routerLinkActive]="['active-nav-link']"
-        >Tutor</a
+        >{{ capitalize(l) }}</a
       >
       <button mat-button (click)="signOut()">Sign Out</button>
     </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav
+    #sideScheduler
+    [fixedInViewport]="true"
+    [fixedTopGap]="64"
+    [mode]="'over'"
+    [position]="'end'"
+  >
+    <app-scheduler (cancel)="sideScheduler.close()"></app-scheduler>
   </mat-sidenav>
 
   <mat-sidenav-content>

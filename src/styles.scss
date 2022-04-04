@@ -44,3 +44,12 @@ snack-bar-container.mat-snack-bar-container {
 [text-right] {
   text-align: right;
 }
+
+.mat-bottom-sheet-container {
+  border-radius: 32px 32px 0 0;
+}
+
+.cdk-overlay-container {
+  // for the time picker in scheduler form
+  z-index: 100;
+}

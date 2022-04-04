@@ -1,0 +1,102 @@
+<div container>
+  <div header>
+    <h2>New Session</h2>
+    <button mat-mini-fab (click)="cancel.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="session" (ngSubmit)="saveSession($event)">
+    <div date-time-fields>
+      <h4>Start</h4>
+      <div>
+        <mat-form-field [floatLabel]="'always'">
+          <mat-label>Date</mat-label>
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="startDatePicker"
+            formControlName="startDate"
+            (focus)="startDatePicker.open()"
+            readonly
+          />
+          <mat-icon matSuffix (click)="startDatePicker.open()">event</mat-icon>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+          <mat-error *ngIf="startDate.invalid"
+            >Start Date is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field [floatLabel]="'always'">
+          <mat-label>Time</mat-label>
+          <input
+            matInput
+            [format]="24"
+            formControlName="startTime"
+            [ngxTimepicker]="startTimePicker"
+            readonly
+          />
+          <mat-icon matSuffix (click)="startTimePicker.open()"
+            >schedule</mat-icon
+          >
+          <ngx-material-timepicker #startTimePicker></ngx-material-timepicker>
+          <mat-error *ngIf="startTime.invalid"
+            >Start Time is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div date-time-fields>
+      <h4>End</h4>
+      <div>
+        <mat-form-field [floatLabel]="'always'">
+          <mat-label>Date</mat-label>
+          <input
+            matInput
+            [min]="session.get('startDate')?.value ?? minDate"
+            [matDatepicker]="endDatePicker"
+            (focus)="endDatePicker.open()"
+            formControlName="endDate"
+            readonly
+          />
+          <mat-icon matSuffix (click)="endDatePicker.open()">event</mat-icon>
+          <mat-datepicker #endDatePicker></mat-datepicker>
+          <mat-error>{{
+            endDate.hasError('required')
+              ? 'End Date is required.'
+              : 'End Date cannot be less than Start Date'
+          }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field [floatLabel]="'always'">
+          <mat-label>Time</mat-label>
+          <input
+            matInput
+            [format]="24"
+            [ngxTimepicker]="endTimePicker"
+            formControlName="endTime"
+            readonly
+          />
+          <mat-icon matSuffix (click)="endTimePicker.open()">schedule</mat-icon>
+          <ngx-material-timepicker
+            [format]="24"
+            #endTimePicker
+          ></ngx-material-timepicker>
+          <mat-error>{{
+            endTime.hasError('required')
+              ? 'End Time is required.'
+              : 'End Time cannot be less than or equal to Start Time'
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div submit-button-container text-right>
+      <button mat-raised-button color="accent">
+        <mat-icon>check</mat-icon>
+        <span>Create</span>
+      </button>
+    </div>
+  </form>
+</div>

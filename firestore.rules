@@ -5,8 +5,19 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
     match /users/{userId} {
-      allow create, read, update: if request.auth != null && request.auth.uid == userId;
+      allow create, read, update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    match /sessions/{sessionId} {
+      allow create: if isOwner(request.resource.data.authorId);
+      allow read, update: if isOwner(request.data.authorId)
+        || isOwner(request.data.tutorId);
       allow delete: if false;
     }
   }

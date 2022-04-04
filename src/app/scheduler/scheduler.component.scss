@@ -1,0 +1,53 @@
+[container] {
+  padding: 32px 16px;
+}
+
+[header] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+[header] h2 {
+  font-weight: normal;
+  font-size: 1.5rem;
+}
+
+[header] button[mat-mini-fab] {
+  transform: scale(0.8);
+}
+
+[date-time-fields] {
+  margin-bottom: 32px;
+
+  h4 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 264px;
+    margin-bottom: 8px;
+  }
+
+  > div {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+
+    mat-form-field {
+      width: 120px;
+    }
+
+    mat-form-field:first-of-type {
+      margin-right: 24px;
+    }
+  }
+}
+
+[submit-button-container] button[mat-raised-button] {
+  font-size: 1.125rem;
+
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}

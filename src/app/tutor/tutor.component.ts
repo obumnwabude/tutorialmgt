@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
   templateUrl: './tutor.component.html',
@@ -16,10 +17,10 @@ export class TutorComponent implements OnInit {
   courseCtrl = new FormControl();
   filteredCourses: Observable<string[]>;
   selectedCourses: string[] = [];
-  allCourses = ['Physics', 'Maths', 'Chemistry', 'Biology', 'English'];
 
   constructor(
     private auth: Auth,
+    private courses: CoursesService,
     private firestore: Firestore,
     private ngxLoader: NgxUiLoaderService,
     private router: Router,
@@ -37,10 +38,10 @@ export class TutorComponent implements OnInit {
       }),
       map((course: string | null) =>
         course
-          ? this.allCourses.filter((t) =>
+          ? this.courses.all.filter((t) =>
               course.toLowerCase().includes(t.toLowerCase())
             )
-          : this.allCourses.slice()
+          : this.courses.all.slice()
       )
     );
   }
