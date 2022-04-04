@@ -1,0 +1,13 @@
+section {
+  margin-bottom: 32px;
+  max-width: 512px;
+
+  h2 {
+    font-weight: normal;
+    font-size: 20px;
+  }
+}
+
+mat-form-field[courses] {
+  width: 100%;
+}

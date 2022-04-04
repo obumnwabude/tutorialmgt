@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, provideAuth, getAuth } from '@angular/fire/auth';
+import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import {
   connectFirestoreEmulator,
   provideFirestore,
@@ -15,8 +14,14 @@ import {
   provideStorage,
   getStorage
 } from '@angular/fire/storage';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
@@ -29,14 +34,32 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RegisterComponent } from './register.component';
 import { SignInComponent } from './sign-in.component';
+import { TutorComponent } from './tutor/tutor.component';
 
 const routes: Route[] = [
-  { path: 'register', component: RegisterComponent },
-  { path: 'sign-in', component: SignInComponent },
-  { path: '', component: DashboardComponent },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectLoggedInTo('/') }
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectLoggedInTo('/') }
+  },
+  {
+    path: 'tutor',
+    component: TutorComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
+  },
+  { path: '', redirectTo: '/tutor', pathMatch: 'full' },
   { path: '**', component: SignInComponent }
 ];
 
@@ -45,13 +68,19 @@ const routes: Route[] = [
     AppComponent,
     RegisterComponent,
     SignInComponent,
-    DashboardComponent
+    DashboardComponent,
+    TutorComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatChipsModule,
     MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
     MatSnackBarModule,
@@ -86,6 +115,7 @@ const routes: Route[] = [
       }
       return storage;
     }),
+    ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [

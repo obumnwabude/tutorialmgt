@@ -16,6 +16,16 @@ mat-sidenav {
   padding: 16px;
 }
 
+a[mat-list-item] {
+  margin-bottom: 8px;
+}
+
+.active-nav-link {
+  // A100 of light blue palette (with reduced transparency)
+  background-color: rgb(179, 229, 252, 0.4);
+  border-radius: 4px;
+}
+
 mat-sidenav-content {
   padding-top: 64px;
   display: flex;

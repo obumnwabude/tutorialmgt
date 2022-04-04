@@ -25,7 +25,13 @@
     [mode]="isLargeScreen ? 'side' : 'over'"
     *ngIf="auth.currentUser"
   >
-    <mat-nav-list>
+    <mat-nav-list
+      ><a
+        mat-list-item
+        [routerLink]="'tutor'"
+        [routerLinkActive]="['active-nav-link']"
+        >Tutor</a
+      >
       <button mat-button (click)="signOut()">Sign Out</button>
     </mat-nav-list>
   </mat-sidenav>
