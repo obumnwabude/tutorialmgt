@@ -24,6 +24,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Person } from '../../models/person.model';
 import { Session } from '../../models/session.model';
 import { CoursesService } from '../../services/courses.service';
+import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
 
 interface TutorRequest {
   course: string;
@@ -65,6 +66,7 @@ export class SchedulerComponent {
     public courses: CoursesService,
     private firestore: Firestore,
     fns: Functions,
+    private shp: SnackbarHorizPosService,
     private ngxLoader: NgxUiLoaderService,
     private router: Router,
     private snackBar: MatSnackBar
@@ -120,7 +122,8 @@ export class SchedulerComponent {
         message = 'Please first fill all the above fields.';
       }
       this.snackBar.open(message, '', {
-        panelClass: ['snackbar-error']
+        panelClass: ['snackbar-error'],
+        horizontalPosition: this.shp.value
       });
     } else if (!this.auth.currentUser) {
       this.router.navigateByUrl('/sign-in');
@@ -131,17 +134,20 @@ export class SchedulerComponent {
       const course = this.course.value;
       try {
         this.snackBar.open('Fetching Tutors, please wait ...', '', {
-          panelClass: ['snackbar-success']
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
         });
         this.isGettingTutors = true;
         this.tutors = (await this.getTutors({ course, start, end })).data;
         this.snackBar.open('Fetched tutors, kindly select one.', '', {
-          panelClass: ['snackbar-success']
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
         });
         this.tutor.setValue(this.tutors[0]);
       } catch (error: any) {
         this.snackBar.open(error.message, '', {
-          panelClass: ['snackbar-error']
+          panelClass: ['snackbar-error'],
+          horizontalPosition: this.shp.value
         });
       } finally {
         this.isGettingTutors = false;
@@ -206,12 +212,14 @@ export class SchedulerComponent {
         (errors.length === 1 && errors[0].control === 'tutor')
       ) {
         this.snackBar.open('Please wait while we fetch tutors', '', {
-          panelClass: ['snackbar-success']
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
         });
         if (!this.isGettingTutors) this.fetchTutors();
       } else {
         this.snackBar.open('Please resolve all errors', '', {
-          panelClass: ['snackbar-error']
+          panelClass: ['snackbar-error'],
+          horizontalPosition: this.shp.value
         });
       }
     } else {
@@ -224,7 +232,8 @@ export class SchedulerComponent {
           this._constructSession()
         );
         this.snackBar.open('Session successfully saved', '', {
-          panelClass: ['snackbar-success']
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
         });
         e.target.reset();
         this.session.reset();
@@ -232,7 +241,8 @@ export class SchedulerComponent {
       } catch (error: any) {
         console.error(error);
         this.snackBar.open(error.message, '', {
-          panelClass: ['snackbar-error']
+          panelClass: ['snackbar-error'],
+          horizontalPosition: this.shp.value
         });
       } finally {
         this.ngxLoader.stop();

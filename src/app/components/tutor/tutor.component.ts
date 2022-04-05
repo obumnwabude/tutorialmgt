@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+
 import { CoursesService } from '../../services/courses.service';
+import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
 
 @Component({
   templateUrl: './tutor.component.html',
@@ -22,6 +24,7 @@ export class TutorComponent implements OnInit {
     private auth: Auth,
     private courses: CoursesService,
     private firestore: Firestore,
+    private shp: SnackbarHorizPosService,
     private ngxLoader: NgxUiLoaderService,
     private router: Router,
     private snackBar: MatSnackBar
@@ -58,7 +61,10 @@ export class TutorComponent implements OnInit {
         }
       }
     } catch (error: any) {
-      this.snackBar.open(error.message, '', { panelClass: 'snackbar-error' });
+      this.snackBar.open(error.message, '', {
+        panelClass: ['snackbar-error'],
+        horizontalPosition: this.shp.value
+      });
     } finally {
       this.ngxLoader.stop();
     }
@@ -72,13 +78,15 @@ export class TutorComponent implements OnInit {
   async saveCourses() {
     if (this.selectedCourses.length === 0) {
       this.snackBar.open('Please add at least one course.', '', {
-        panelClass: 'snackbar-error'
+        panelClass: ['snackbar-error'],
+        horizontalPosition: this.shp.value
       });
       return;
     } else if (this.auth.currentUser === null) {
       this.router.navigateByUrl('/sign-in');
       this.snackBar.open('You should be logged in', '', {
-        panelClass: 'snackbar-error'
+        panelClass: ['snackbar-error'],
+        horizontalPosition: this.shp.value
       });
     } else {
       try {
@@ -89,10 +97,14 @@ export class TutorComponent implements OnInit {
           { merge: true }
         );
         this.snackBar.open('Courses updated successfully.', '', {
-          panelClass: 'snackbar-success'
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
         });
       } catch (error: any) {
-        this.snackBar.open(error.message, '', { panelClass: 'snackbar-error' });
+        this.snackBar.open(error.message, '', {
+          panelClass: ['snackbar-error'],
+          horizontalPosition: this.shp.value
+        });
       } finally {
         this.ngxLoader.stop();
       }

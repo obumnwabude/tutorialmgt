@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
+import { SnackbarHorizPosService } from '../services/snackbar-horiz-pos.service';
+
 @Component({
   template: `<ngx-auth-firebaseui-login
     [providers]="[]"
@@ -17,6 +19,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 })
 export class SignInComponent {
   constructor(
+    private shp: SnackbarHorizPosService,
     public ngxLoader: NgxUiLoaderService,
     public router: Router,
     private snackBar: MatSnackBar
@@ -38,13 +41,17 @@ export class SignInComponent {
       default:
         message = error.message;
     }
-    this.snackBar.open(message, '', { panelClass: ['snackbar-error'] });
+    this.snackBar.open(message, '', {
+      panelClass: ['snackbar-error'],
+      horizontalPosition: this.shp.value
+    });
   }
 
   welcome(user: User) {
     this.ngxLoader.stop();
     this.snackBar.open(`Welcome back ${user.displayName?.split(' ')[0]}!`, '', {
-      panelClass: ['snackbar-success']
+      panelClass: ['snackbar-success'],
+      horizontalPosition: this.shp.value
     });
     this.router.navigateByUrl('/');
   }

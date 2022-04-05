@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 
+import { SnackbarHorizPosService } from '../services/snackbar-horiz-pos.service';
+
 @Component({
   template: `<ngx-auth-firebaseui-register
     (onCreateAccountButtonClicked)="ngxLoader.start()"
@@ -17,6 +19,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class RegisterComponent {
   constructor(
     private firestore: Firestore,
+    private shp: SnackbarHorizPosService,
     public ngxLoader: NgxUiLoaderService,
     public router: Router,
     private snackBar: MatSnackBar
@@ -35,7 +38,10 @@ export class RegisterComponent {
       default:
         message = error.message;
     }
-    this.snackBar.open(message, '', { panelClass: ['snackbar-error'] });
+    this.snackBar.open(message, '', {
+      panelClass: ['snackbar-error'],
+      horizontalPosition: this.shp.value
+    });
   }
 
   async welcome(user: User) {
@@ -52,7 +58,8 @@ export class RegisterComponent {
     }
     this.ngxLoader.stop();
     this.snackBar.open(`Welcome ${user.displayName?.split(' ')[0]}!`, '', {
-      panelClass: ['snackbar-success']
+      panelClass: ['snackbar-success'],
+      horizontalPosition: this.shp.value
     });
     this.router.navigateByUrl('/');
   }
