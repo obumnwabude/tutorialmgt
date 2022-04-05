@@ -107,9 +107,9 @@
       <h4>Tutor</h4>
       <div>
         <mat-form-field [floatLabel]="'always'">
-          <mat-select formControlName="tutorId" (click)="fetchTutors()">
-            <mat-option *ngFor="let t of tutors" [value]="t.id">
-              {{ t.name }}
+          <mat-select formControlName="tutor" (click)="fetchTutors()">
+            <mat-option *ngFor="let t of tutors" [value]="t">
+              {{ t.name !== '' ? t.name : t.email }}
             </mat-option>
           </mat-select>
         </mat-form-field>

@@ -99,7 +99,7 @@ exports.getTutors = functions.https.onCall(async (data, context) => {
   ).docs
     .map((d) => {
       const { displayName, email, uid } = d.data().authInfo;
-      return { name: displayName ?? email, id: uid };
+      return { id: uid, email, name: displayName ?? '' };
     })
     .filter((d) => d.id !== context.auth.uid);
 });

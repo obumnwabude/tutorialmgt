@@ -19,14 +19,9 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { NgxUiLoaderService, Time } from 'ngx-ui-loader';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { CoursesService } from '../services/courses.service';
-import { Session } from '../session';
-
-interface Tutor {
-  id: string;
-  name: string;
-}
+import { Person, Session } from '../session';
 
 interface TutorRequest {
   course: string;
@@ -40,7 +35,7 @@ interface TutorRequest {
   styleUrls: ['./scheduler.component.scss']
 })
 export class SchedulerComponent {
-  getTutors: HttpsCallable<TutorRequest, Tutor[]>;
+  getTutors: HttpsCallable<TutorRequest, Person[]>;
   isGettingTutors = false;
   minDate = new Date();
   startDate = new FormControl(null, Validators.required);
@@ -51,16 +46,16 @@ export class SchedulerComponent {
     this._validateEndTime.bind(this)
   ]);
   course = new FormControl(this.courses.all[0], Validators.required);
-  tutorId = new FormControl(null, Validators.required);
+  tutor = new FormControl(null, Validators.required);
   session = new FormGroup({
     startDate: this.startDate,
     startTime: this.startTime,
     endDate: this.endDate,
     endTime: this.endTime,
     course: this.course,
-    tutorId: this.tutorId
+    tutor: this.tutor
   });
-  tutors: Tutor[] = [];
+  tutors: Person[] = [];
   @Output() cancel = new EventEmitter<boolean>();
 
   constructor(
@@ -97,7 +92,7 @@ export class SchedulerComponent {
     const errors = this._getFormValidationErrors();
     if (
       errors.length > 1 ||
-      !(errors.length === 1 && errors[0].control === 'tutorId')
+      !(errors.length === 1 && errors[0].control === 'tutor')
     ) {
       let message = 'Please resolve all errors above before proceeding.';
       if (
@@ -170,11 +165,18 @@ export class SchedulerComponent {
 
   private _constructSession(): Session {
     const { start, end } = this._mergeDates();
-    const { course, tutorId } = this.session.value;
-    let authorId = '';
-    if (this.auth.currentUser) authorId = this.auth.currentUser.uid;
-    else this.router.navigateByUrl('/sign-in');
-    return new Session(authorId, course, end, start, 'pending', tutorId);
+    const { course, tutor } = this.session.value;
+    if (this.auth.currentUser) {
+      const { displayName, email, uid } = this.auth.currentUser;
+      const student: Person = {
+        email: email ?? '',
+        id: uid,
+        name: displayName ?? ''
+      };
+      return new Session(course, end, start, 'pending', student, tutor);
+    } else {
+      throw this.router.navigateByUrl('/sign-in');
+    }
   }
 
   async saveSession(e: any): Promise<void> {
@@ -182,7 +184,7 @@ export class SchedulerComponent {
       const errors = this._getFormValidationErrors();
       if (
         errors.length > 1 ||
-        !(errors.length === 1 && errors[0].control === 'tutorId')
+        !(errors.length === 1 && errors[0].control === 'tutor')
       ) {
         this.snackBar.open('Please resolve all errors', '', {
           panelClass: ['snackbar-error']

@@ -4,38 +4,44 @@ import {
   Timestamp
 } from '@angular/fire/firestore';
 
-type SessionStatus = 'accepted' | 'pending' | 'rejected';
+export type SessionStatus = 'accepted' | 'pending' | 'rejected';
+
+export interface Person {
+  id: string;
+  email: string;
+  name: string;
+}
 
 export class Session {
   constructor(
-    public authorId: string,
     public course: string,
     public end: Date,
     public start: Date,
     public status: SessionStatus,
-    public tutorId: string
+    public student: Person,
+    public tutor: Person
   ) {}
 
   static fromJSON(json: any): Session {
     return new Session(
-      json['authorId'],
       json['course'],
       json['end'].toDate(),
       json['start'].toDate(),
       json['status'],
-      json['tutorId']
+      json['student'],
+      json['tutor']
     );
   }
 
   static toJSON(Session: Session) {
-    const { authorId, end, course, start, status, tutorId } = Session;
+    const { course, end, start, status, student, tutor } = Session;
     return {
-      authorId,
-      end: Timestamp.fromDate(end),
       course,
+      end: Timestamp.fromDate(end),
       start: Timestamp.fromDate(start),
       status,
-      tutorId
+      student,
+      tutor
     };
   }
 
