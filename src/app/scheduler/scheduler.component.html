@@ -6,8 +6,8 @@
     </button>
   </div>
 
-  <form [formGroup]="session" (ngSubmit)="saveSession($event)">
-    <div date-time-fields>
+  <form [formGroup]="session" (ngSubmit)="saveSession($event)" session-form>
+    <div field date-time-fields>
       <h4>Start</h4>
       <div>
         <mat-form-field [floatLabel]="'always'">
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div date-time-fields>
+    <div field date-time-fields>
       <h4>End</h4>
       <div>
         <mat-form-field [floatLabel]="'always'">
@@ -91,6 +91,39 @@
         </mat-form-field>
       </div>
     </div>
+
+    <div field>
+      <h4>Course</h4>
+      <mat-form-field [floatLabel]="'always'">
+        <mat-select formControlName="course">
+          <mat-option *ngFor="let c of courses.all" [value]="c">
+            {{ c }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div field tutor-field>
+      <h4>Tutor</h4>
+      <div>
+        <mat-form-field [floatLabel]="'always'">
+          <mat-select formControlName="tutorId" (click)="fetchTutors()">
+            <mat-option *ngFor="let t of tutors" [value]="t.id">
+              {{ t.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-progress-spinner
+          mode="indeterminate"
+          *ngIf="isGettingTutors"
+          strokeWidth="6"
+          diameter="32"
+        ></mat-progress-spinner>
+      </div>
+    </div>
+
+    <!-- To help form's grid styling in tablet -->
+    <div></div>
 
     <div submit-button-container text-right>
       <button mat-raised-button color="accent">

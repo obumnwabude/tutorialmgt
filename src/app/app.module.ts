@@ -3,12 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, provideAuth, getAuth } from '@angular/fire/auth';
-import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import {
+  AuthGuard,
+  redirectLoggedInTo,
+  redirectUnauthorizedTo
+} from '@angular/fire/auth-guard';
 import {
   connectFirestoreEmulator,
   provideFirestore,
   getFirestore
 } from '@angular/fire/firestore';
+import {
+  connectFunctionsEmulator,
+  provideFunctions,
+  getFunctions
+} from '@angular/fire/functions';
 import {
   connectStorageEmulator,
   provideStorage,
@@ -26,6 +35,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {
   MatSnackBarModule,
@@ -99,6 +110,8 @@ const routes: Route[] = [
     MatFormFieldModule,
     MatListModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
     MatToolbarModule,
@@ -125,6 +138,13 @@ const routes: Route[] = [
         connectFirestoreEmulator(firestore, 'localhost', 8080);
       }
       return firestore;
+    }),
+    provideFunctions(() => {
+      const functions = getFunctions();
+      if (!environment.production) {
+        connectFunctionsEmulator(functions, 'localhost', 5001);
+      }
+      return functions;
     }),
     provideStorage(() => {
       const storage = getStorage();

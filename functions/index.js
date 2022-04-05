@@ -59,3 +59,47 @@ exports.reduceSessionCount = functions.firestore
         )
         .catch((error) => console.error(error))
   );
+
+exports.getTutors = functions.https.onCall(async (data, context) => {
+  if (!data.course) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Please provide the course to get tutors for.'
+    );
+  } else if (
+    !data.start ||
+    !('seconds' in data.start && 'nanoseconds' in data.start)
+  ) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Please provide start, it should be a Timestamp.'
+    );
+  } else if (
+    !data.end ||
+    !('seconds' in data.end && 'nanoseconds' in data.end)
+  ) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Please provide end, it should be a Timestamp.'
+    );
+  } else if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Please sign in first.'
+    );
+  }
+
+  return (
+    await admin
+      .firestore()
+      .collection('users')
+      .where('tutorInfo.courses', 'array-contains', data.course)
+      .limit(100)
+      .get()
+  ).docs
+    .map((d) => {
+      const { displayName, email, uid } = d.data().authInfo;
+      return { name: displayName ?? email, id: uid };
+    })
+    .filter((d) => d.id !== context.auth.uid);
+});
