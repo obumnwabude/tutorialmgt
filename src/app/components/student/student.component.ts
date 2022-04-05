@@ -6,15 +6,15 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { SchedulerComponent } from '../scheduler/scheduler.component';
-import { IsLargeScreenService } from '../services/is-large-screen.service';
-import { SideSchedulerService } from '../services/side-scheduler.service';
-import { StudentComponentService } from '../services/student-component.service';
+import { IsLargeScreenService } from '../../services/is-large-screen.service';
+import { SideSchedulerService } from '../../services/side-scheduler.service';
+import { StudentComponentService } from '../../services/student-component.service';
 
 @Component({
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss']
 })
-export class StudentComponent implements OnDestroy  {
+export class StudentComponent implements OnDestroy {
   bsRef!: MatBottomSheetRef<SchedulerComponent>;
   isLargeScreen!: boolean;
   constructor(

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StudentComponent } from '../student/student.component';
+import { StudentComponent } from '../components/student/student.component';
 
 @Injectable({
   providedIn: 'root'

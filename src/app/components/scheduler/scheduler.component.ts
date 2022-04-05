@@ -20,8 +20,10 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { CoursesService } from '../services/courses.service';
-import { Person, Session } from '../session';
+
+import { Person } from '../../models/person.model';
+import { Session } from '../../models/session.model';
+import { CoursesService } from '../../services/courses.service';
 
 interface TutorRequest {
   course: string;

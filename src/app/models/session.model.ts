@@ -4,13 +4,9 @@ import {
   Timestamp
 } from '@angular/fire/firestore';
 
-export type SessionStatus = 'accepted' | 'pending' | 'rejected';
+import { Person } from './person.model';
 
-export interface Person {
-  id: string;
-  email: string;
-  name: string;
-}
+export type SessionStatus = 'accepted' | 'pending' | 'rejected';
 
 export class Session {
   constructor(

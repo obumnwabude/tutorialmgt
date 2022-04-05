@@ -50,12 +50,11 @@ import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RegisterComponent } from './register.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
-import { SignInComponent } from './sign-in.component';
-import { StudentComponent } from './student/student.component';
-import { TutorComponent } from './tutor/tutor.component';
+import { RegisterComponent } from './components/register.component';
+import { SchedulerComponent } from './components/scheduler/scheduler.component';
+import { SignInComponent } from './components/sign-in.component';
+import { StudentComponent } from './components/student/student.component';
+import { TutorComponent } from './components/tutor/tutor.component';
 
 const routes: Route[] = [
   {
@@ -89,7 +88,6 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     RegisterComponent,
     SchedulerComponent,
     SignInComponent,
