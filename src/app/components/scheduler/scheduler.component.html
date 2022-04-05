@@ -18,6 +18,7 @@
             [matDatepicker]="startDatePicker"
             formControlName="startDate"
             (focus)="startDatePicker.open()"
+            (ngModelChange)="tappedField()"
             readonly
           />
           <mat-icon matSuffix (click)="startDatePicker.open()">event</mat-icon>
@@ -34,6 +35,7 @@
             [format]="24"
             formControlName="startTime"
             [ngxTimepicker]="startTimePicker"
+            (ngModelChange)="tappedField()"
             readonly
           />
           <mat-icon matSuffix (click)="startTimePicker.open()"
@@ -57,6 +59,7 @@
             [min]="session.get('startDate')?.value ?? minDate"
             [matDatepicker]="endDatePicker"
             (focus)="endDatePicker.open()"
+            (ngModelChange)="tappedField()"
             formControlName="endDate"
             readonly
           />
@@ -75,6 +78,7 @@
             matInput
             [format]="24"
             [ngxTimepicker]="endTimePicker"
+            (ngModelChange)="tappedField()"
             formControlName="endTime"
             readonly
           />
@@ -95,7 +99,10 @@
     <div field>
       <h4>Course</h4>
       <mat-form-field [floatLabel]="'always'">
-        <mat-select formControlName="course">
+        <mat-select
+          formControlName="course"
+          (selectionChange)="tappedField()"
+        >
           <mat-option *ngFor="let c of courses.all" [value]="c">
             {{ c }}
           </mat-option>
@@ -107,7 +114,7 @@
       <h4>Tutor</h4>
       <div>
         <mat-form-field [floatLabel]="'always'">
-          <mat-select formControlName="tutor" (click)="fetchTutors()">
+          <mat-select formControlName="tutor" (click)="tappedTutorDropdown()">
             <mat-option *ngFor="let t of tutors" [value]="t">
               {{ t.name !== '' ? t.name : t.email }}
             </mat-option>

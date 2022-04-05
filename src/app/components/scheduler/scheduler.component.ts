@@ -39,10 +39,10 @@ interface TutorRequest {
 export class SchedulerComponent {
   getTutors: HttpsCallable<TutorRequest, Person[]>;
   isGettingTutors = false;
-  minDate = new Date();
+  minDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
   startDate = new FormControl(null, Validators.required);
   startTime = new FormControl(null, Validators.required);
-  endDate = new FormControl(null, [Validators.required]);
+  endDate = new FormControl(null, Validators.required);
   endTime = new FormControl(null, [
     Validators.required,
     this._validateEndTime.bind(this)
@@ -70,6 +70,7 @@ export class SchedulerComponent {
     private snackBar: MatSnackBar
   ) {
     this.getTutors = httpsCallable(fns, 'getTutors');
+    this.minDate.setHours(0, 0, 0, 0);
   }
 
   private _getFormValidationErrors(): any[] {
@@ -89,12 +90,27 @@ export class SchedulerComponent {
     return result;
   }
 
-  async fetchTutors() {
-    if (this.tutors.length > 0) return;
+  async tappedField() {
     const errors = this._getFormValidationErrors();
     if (
-      errors.length > 1 ||
-      !(errors.length === 1 && errors[0].control === 'tutor')
+      errors.length === 0 ||
+      (errors.length === 1 && errors[0].control === 'tutor')
+    ) {
+      return this.fetchTutors();
+    }
+  }
+
+  async tappedTutorDropdown() {
+    if (this.tutors.length > 0) return;
+    else return this.fetchTutors();
+  }
+
+  async fetchTutors() {
+    const errors = this._getFormValidationErrors();
+    if (
+      this.session.invalid &&
+      (errors.length > 1 ||
+        !(errors.length === 1 && errors[0].control === 'tutor'))
     ) {
       let message = 'Please resolve all errors above before proceeding.';
       if (
@@ -134,10 +150,10 @@ export class SchedulerComponent {
   }
 
   private _validateEndTime(end: AbstractControl) {
-    const startDate = this != undefined ? this.startDate?.value : null;
-    const endDate = this != undefined ? this.endDate?.value : null;
+    const startDate = this.startDate.value;
+    const endDate = this.endDate.value;
     if (startDate && endDate && endDate?.getTime() === startDate?.getTime()) {
-      const startTime = this.startTime?.value;
+      const startTime = this.startTime.value;
       const endTime = end.value;
       if (startTime && endTime) {
         const [startHours, startMins] = this.startTime.value
@@ -186,17 +202,17 @@ export class SchedulerComponent {
     if (this.session.invalid) {
       const errors = this._getFormValidationErrors();
       if (
-        errors.length > 1 ||
-        !(errors.length === 1 && errors[0].control === 'tutor')
+        errors.length === 0 ||
+        (errors.length === 1 && errors[0].control === 'tutor')
       ) {
-        this.snackBar.open('Please resolve all errors', '', {
-          panelClass: ['snackbar-error']
-        });
-      } else {
         this.snackBar.open('Please wait while we fetch tutors', '', {
           panelClass: ['snackbar-success']
         });
         if (!this.isGettingTutors) this.fetchTutors();
+      } else {
+        this.snackBar.open('Please resolve all errors', '', {
+          panelClass: ['snackbar-error']
+        });
       }
     } else {
       try {
