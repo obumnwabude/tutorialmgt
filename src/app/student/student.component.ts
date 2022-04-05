@@ -1,32 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   MatBottomSheet,
   MatBottomSheetRef
 } from '@angular/material/bottom-sheet';
-import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { SchedulerComponent } from '../scheduler/scheduler.component';
 import { IsLargeScreenService } from '../services/is-large-screen.service';
 import { SideSchedulerService } from '../services/side-scheduler.service';
+import { StudentComponentService } from '../services/student-component.service';
 
 @Component({
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss']
 })
-export class StudentComponent  {
+export class StudentComponent implements OnDestroy  {
   bsRef!: MatBottomSheetRef<SchedulerComponent>;
   isLargeScreen!: boolean;
   constructor(
     private bs: MatBottomSheet,
     private _isLargeScreen: IsLargeScreenService,
-    private sideScheduler: SideSchedulerService
+    private sideScheduler: SideSchedulerService,
+    private _studentComponent: StudentComponentService
   ) {
     this._isLargeScreen.value.subscribe((v) => {
       v ? this.bsRef?.dismiss() : this.sideScheduler.value.close();
       this.isLargeScreen = v;
     });
+    this._studentComponent.value = this;
   }
 
+  ngOnDestroy() {
+    this._studentComponent.value = null;
+  }
 
   newSession() {
     if (this.isLargeScreen) {

@@ -112,7 +112,7 @@ export class SchedulerComponent {
       const end = Timestamp.fromDate(dates.end);
       const course = this.course.value;
       try {
-        this.snackBar.open('Fetching Tutors ...', '', {
+        this.snackBar.open('Fetching Tutors, please wait ...', '', {
           panelClass: ['snackbar-success']
         });
         this.isGettingTutors = true;
@@ -120,6 +120,7 @@ export class SchedulerComponent {
         this.snackBar.open('Fetched tutors, kindly select one.', '', {
           panelClass: ['snackbar-success']
         });
+        this.tutor.setValue(this.tutors[0]);
       } catch (error: any) {
         this.snackBar.open(error.message, '', {
           panelClass: ['snackbar-error']

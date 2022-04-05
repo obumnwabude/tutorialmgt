@@ -18,6 +18,7 @@
 
 <mat-sidenav-container>
   <mat-sidenav
+    snav
     #snav
     [fixedInViewport]="true"
     [fixedTopGap]="56"
@@ -25,19 +26,52 @@
     [mode]="isLargeScreen ? 'side' : 'over'"
     *ngIf="auth.currentUser"
   >
-    <mat-nav-list
-      ><a
-        mat-list-item
-        *ngFor="let l of links"
-        [routerLink]="l"
-        [routerLinkActive]="['active-nav-link']"
-        >{{ capitalize(l) }}</a
-      >
-      <button mat-button (click)="signOut()">Sign Out</button>
-    </mat-nav-list>
+    <div content>
+      <h3>
+        <mat-icon>school</mat-icon>
+        <span>&nbsp;&nbsp;&nbsp;STUDENT DASHBOARD</span>
+      </h3>
+      <p indent>
+        <a
+          mat-stroked-button
+          [routerLink]="'/student'"
+          [routerLinkActive]="['active-nav-link']"
+          ><mat-icon>terrain</mat-icon> <span>Overview</span></a
+        >
+      </p>
+      <p indent>
+        <button mat-stroked-button (click)="newSession()">
+          <mat-icon>event_available</mat-icon> <span>Book A Session</span>
+        </button>
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        <mat-icon>play_lesson</mat-icon
+        ><span>&nbsp;&nbsp;&nbsp;TUTOR DASHBOARD</span>
+      </h3>
+      <p indent>
+        <a
+          mat-stroked-button
+          [routerLink]="'/tutor'"
+          [routerLinkActive]="['active-nav-link']"
+          ><mat-icon>terrain</mat-icon> <span>Overview</span></a
+        >
+      </p>
+      <mat-divider></mat-divider>
+      <h3>
+        <mat-icon>admin_panel_settings</mat-icon
+        ><span>&nbsp;&nbsp;&nbsp;ACCOUNT SETTINGS</span>
+      </h3>
+      <p indent>
+        <button mat-stroked-button (click)="signOut()">
+          <mat-icon>person_remove</mat-icon> <span>Sign Out</span>
+        </button>
+      </p>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav
+    side-scheduler
     #sideScheduler
     [fixedInViewport]="true"
     [fixedTopGap]="64"

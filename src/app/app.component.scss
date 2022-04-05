@@ -3,7 +3,7 @@ mat-toolbar[navbar] {
   z-index: 10;
   position: fixed;
   top: 0;
-  left: 0;
+  // left: 0;
   right: 0;
 }
 
@@ -12,17 +12,62 @@ mat-sidenav-content {
   min-height: 100vh;
 }
 
-mat-sidenav {
-  padding: 16px;
+mat-sidenav[snav] {
+  padding: 24px;
+  background-color: #4e73df;
+  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+  background-size: cover;
+  color: white !important;
+
+  h3 {
+    font-size: 12px;
+    font-weight: normal;
+    margin-bottom: 16px;
+    // text-decoration: underline;
+
+    mat-icon {
+      font-size: 12px;
+      text-decoration: underline;
+      margin-left: 0;
+      height: 0;
+      width: 0;
+    }
+
+    span {
+      padding-left: 8px;
+      text-decoration: underline;
+    }
+  }
+
+  a,
+  button {
+    margin-bottom: 12px;
+    font-size: 14px;
+    padding: 8px 12px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  mat-divider {
+    color: white;
+    border-top: 2px solid;
+    margin: 24px 0;
+  }
+
+  [indent] {
+    padding: 0 24px;
+  }
 }
 
-a[mat-list-item] {
-  margin-bottom: 8px;
+mat-sidenav[side-scheduler] {
+  padding: 16px;
 }
 
 .active-nav-link {
   // A100 of light blue palette (with reduced transparency)
-  background-color: rgb(179, 229, 252, 0.4);
+  background-color: rgb(179, 229, 252, 0.2);
   border-radius: 4px;
 }
 
@@ -33,7 +78,7 @@ mat-sidenav-content {
 }
 
 main {
-  padding: 32px 16px;
+  padding: 32px;
   width: 100%;
 }
 

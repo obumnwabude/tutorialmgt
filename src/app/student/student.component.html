@@ -1,4 +1,10 @@
-<h2 class="mat-display-1">Overview</h2>
+<div heading>
+  <h2 class="mat-display-1">Overview</h2>
+  <button mat-raised-button color="primary" *ngIf="isLargeScreen" (click)="newSession()">
+    <mat-icon>edit_calendar</mat-icon>
+    <span>Book a Session</span>
+  </button>
+</div>
 
 <div stat-cards>
   <div stat-card [ngStyle]="{ 'border-color': '#4e73df' }">
@@ -34,6 +40,8 @@
   </div>
 </div>
 
-<button mat-fab (click)="newSession()">
-  <mat-icon>add</mat-icon>
+<h2 class="mat-display-1">Upcoming Sessions</h2>
+
+<button mat-fab (click)="newSession()" *ngIf="!isLargeScreen">
+  <mat-icon>edit_calendar</mat-icon>
 </button>

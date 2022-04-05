@@ -30,10 +30,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
@@ -105,10 +105,10 @@ const routes: Route[] = [
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
-    MatListModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSelectModule,

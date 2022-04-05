@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 
 import { IsLargeScreenService } from './services/is-large-screen.service';
 import { SideSchedulerService } from './services/side-scheduler.service';
+import { StudentComponentService } from './services/student-component.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,6 @@ import { SideSchedulerService } from './services/side-scheduler.service';
 })
 export class AppComponent implements AfterViewInit {
   isLargeScreen!: boolean;
-  links = ['student', 'tutor'];
   // the 500 level of mat light blue palette
   primaryColor = '#03A9F4';
   SPINNER = SPINNER;
@@ -27,7 +27,8 @@ export class AppComponent implements AfterViewInit {
     public auth: Auth,
     private _isLargeScreen: IsLargeScreenService,
     private router: Router,
-    private sideScheduler: SideSchedulerService
+    private sideScheduler: SideSchedulerService,
+    private studentComponent: StudentComponentService
   ) {
     this._isLargeScreen.value.subscribe((l) => (this.isLargeScreen = l));
   }
@@ -41,12 +42,13 @@ export class AppComponent implements AfterViewInit {
       });
   }
 
+  async newSession() {
+    await this.router.navigateByUrl('/student');
+    this.studentComponent.value?.newSession();
+  }
+
   async signOut() {
     await this.auth.signOut();
     this.router.navigateByUrl('/sign-in');
-  }
-
-  capitalize(str: string): string {
-    return str[0].toUpperCase() + str.substring(1);
   }
 }
