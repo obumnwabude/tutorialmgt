@@ -25,7 +25,6 @@ export class StudentComponent  {
       v ? this.bsRef?.dismiss() : this.sideScheduler.value.close();
       this.isLargeScreen = v;
     });
-    this.newSession();
   }
 
 

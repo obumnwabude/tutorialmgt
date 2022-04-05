@@ -1,3 +1,39 @@
+<h2 class="mat-display-1">Overview</h2>
+
+<div stat-cards>
+  <div stat-card [ngStyle]="{ 'border-color': '#4e73df' }">
+    <div text>
+      <span title [ngStyle]="{ color: '#4e73df' }">SCHEDULED TUTORIALS</span>
+      <span stat>10</span>
+    </div>
+    <mat-icon>display_settings</mat-icon>
+  </div>
+
+  <div stat-card [ngStyle]="{ 'border-color': '#1cc88a' }">
+    <div text>
+      <span title [ngStyle]="{ color: '#1cc88a' }">UPCOMING SESSIONS</span>
+      <span stat>1</span>
+    </div>
+    <mat-icon>upcoming</mat-icon>
+  </div>
+
+  <div stat-card [ngStyle]="{ 'border-color': '#36b9cc' }">
+    <div text>
+      <span title [ngStyle]="{ color: '#36b9cc' }">PENDING REQUESTS</span>
+      <span stat>5</span>
+    </div>
+    <mat-icon>pending_actions</mat-icon>
+  </div>
+
+  <div stat-card [ngStyle]="{ 'border-color': '#f6c23e' }">
+    <div text>
+      <span title [ngStyle]="{ color: '#f6c23e' }">ALL APP SESSIONS</span>
+      <span stat>18</span>
+    </div>
+    <mat-icon>insights</mat-icon>
+  </div>
+</div>
+
 <button mat-fab (click)="newSession()">
   <mat-icon>add</mat-icon>
 </button>
