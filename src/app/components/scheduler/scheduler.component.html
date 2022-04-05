@@ -99,10 +99,7 @@
     <div field>
       <h4>Course</h4>
       <mat-form-field [floatLabel]="'always'">
-        <mat-select
-          formControlName="course"
-          (selectionChange)="tappedField()"
-        >
+        <mat-select formControlName="course" (selectionChange)="tappedField()">
           <mat-option *ngFor="let c of courses.all" [value]="c">
             {{ c }}
           </mat-option>

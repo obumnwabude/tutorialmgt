@@ -237,6 +237,8 @@ export class SchedulerComponent {
         });
         e.target.reset();
         this.session.reset();
+        this.course.setValue(this.courses.all[0]);
+        this.tutors = [];
         this.cancel.emit();
       } catch (error: any) {
         console.error(error);
