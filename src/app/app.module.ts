@@ -29,6 +29,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -50,6 +51,7 @@ import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { CloseSchedulerDialog } from './components/close-scheduler-dialog';
 import { RegisterComponent } from './components/register.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SignInComponent } from './components/sign-in.component';
@@ -88,6 +90,7 @@ const routes: Route[] = [
 @NgModule({
   declarations: [
     AppComponent,
+    CloseSchedulerDialog,
     RegisterComponent,
     SchedulerComponent,
     SignInComponent,
@@ -103,6 +106,7 @@ const routes: Route[] = [
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatInputModule,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   addDoc,
@@ -17,14 +17,17 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { firstValueFrom } from 'rxjs';
 
 import { Person } from '../../models/person.model';
 import { Session } from '../../models/session.model';
 import { CoursesService } from '../../services/courses.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
+import { CloseSchedulerDialog } from '../close-scheduler-dialog';
 
 interface TutorRequest {
   course: string;
@@ -60,10 +63,12 @@ export class SchedulerComponent {
   });
   tutors: Person[] = [];
   @Output() cancel = new EventEmitter<boolean>();
+  @ViewChild('sessionForm') sessionForm!: ElementRef<HTMLFormElement>;
 
   constructor(
     private auth: Auth,
     public courses: CoursesService,
+    public dialog: MatDialog,
     private firestore: Firestore,
     fns: Functions,
     private shp: SnackbarHorizPosService,
@@ -73,6 +78,20 @@ export class SchedulerComponent {
   ) {
     this.getTutors = httpsCallable(fns, 'getTutors');
     this.minDate.setHours(0, 0, 0, 0);
+  }
+
+  close() {
+    this.course.setValue(this.courses.all[0]);
+    this.tutors = [];
+    this.sessionForm.nativeElement.reset();
+    this.session.reset();
+    this.cancel.emit();
+  }
+
+  async openCloseDialog() {
+    const dialogRef = this.dialog.open(CloseSchedulerDialog, { maxWidth: 384 });
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    if (result) this.close();
   }
 
   private _getFormValidationErrors(): any[] {
@@ -204,7 +223,7 @@ export class SchedulerComponent {
     }
   }
 
-  async saveSession(e: any): Promise<void> {
+  async saveSession() {
     if (this.session.invalid) {
       const errors = this._getFormValidationErrors();
       if (
@@ -235,11 +254,7 @@ export class SchedulerComponent {
           panelClass: ['snackbar-success'],
           horizontalPosition: this.shp.value
         });
-        e.target.reset();
-        this.session.reset();
-        this.course.setValue(this.courses.all[0]);
-        this.tutors = [];
-        this.cancel.emit();
+        this.close();
       } catch (error: any) {
         console.error(error);
         this.snackBar.open(error.message, '', {

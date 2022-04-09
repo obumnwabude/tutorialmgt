@@ -1,12 +1,17 @@
 <div container>
   <div header>
     <h2>New Session</h2>
-    <button mat-mini-fab (click)="cancel.emit()">
+    <button mat-mini-fab (click)="openCloseDialog()">
       <mat-icon>close</mat-icon>
     </button>
   </div>
 
-  <form [formGroup]="session" (ngSubmit)="saveSession($event)" session-form>
+  <form
+    [formGroup]="session"
+    (ngSubmit)="saveSession()"
+    session-form
+    #sessionForm
+  >
     <div field date-time-fields>
       <h4>Start</h4>
       <div>

@@ -23,10 +23,7 @@ export class StudentComponent implements OnDestroy {
     private sideScheduler: SideSchedulerService,
     private _studentComponent: StudentComponentService
   ) {
-    this._isLargeScreen.value.subscribe((v) => {
-      v ? this.bsRef?.dismiss() : this.sideScheduler.value.close();
-      this.isLargeScreen = v;
-    });
+    this._isLargeScreen.value.subscribe((v) => this.isLargeScreen = v);
     this._studentComponent.value = this;
   }
 
@@ -38,7 +35,7 @@ export class StudentComponent implements OnDestroy {
     if (this.isLargeScreen) {
       this.sideScheduler.value.open();
     } else {
-      this.bsRef = this.bs.open(SchedulerComponent);
+      this.bsRef = this.bs.open(SchedulerComponent, {disableClose: true});
       const closeSub = this.bsRef.instance.cancel.subscribe((_) =>
         this.bsRef.dismiss()
       );
