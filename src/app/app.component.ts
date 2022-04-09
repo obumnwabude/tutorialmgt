@@ -50,5 +50,6 @@ export class AppComponent implements AfterViewInit {
   async signOut() {
     await this.auth.signOut();
     this.router.navigateByUrl('/sign-in');
+    window.location.reload();
   }
 }
