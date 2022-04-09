@@ -62,6 +62,7 @@
   </div>
 
   <app-sessions-table
+    [hideStudent]="true"
     [sessions]="sessions"
     *ngIf="!isFetchingSessions && sessions.length > 0"
   ></app-sessions-table>

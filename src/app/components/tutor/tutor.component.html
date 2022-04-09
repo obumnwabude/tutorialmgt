@@ -1,6 +1,6 @@
 <div page-container>
-  <section>
-    <h2>Courses You Teach</h2>
+  <section courses>
+    <h2 class="mat-display-1">Courses You Teach</h2>
     <mat-form-field courses [floatLabel]="'never'">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let course of selectedCourses">
@@ -36,5 +36,59 @@
         Update
       </button>
     </div>
+  </section>
+
+  <section>
+    <h2 class="mat-display-1">Overview</h2>
+
+    <div stat-cards>
+      <div stat-card [ngStyle]="{ 'border-color': '#4e73df' }">
+        <div text>
+          <span title [ngStyle]="{ color: '#4e73df' }"
+            >REQUESTED TUTORIALS</span
+          >
+          <span stat>10</span>
+        </div>
+        <mat-icon>display_settings</mat-icon>
+      </div>
+
+      <div stat-card [ngStyle]="{ 'border-color': '#1cc88a' }">
+        <div text>
+          <span title [ngStyle]="{ color: '#1cc88a' }">UPCOMING SESSIONS</span>
+          <span stat>1</span>
+        </div>
+        <mat-icon>upcoming</mat-icon>
+      </div>
+
+      <div stat-card [ngStyle]="{ 'border-color': '#36b9cc' }">
+        <div text>
+          <span title [ngStyle]="{ color: '#36b9cc' }">ACCEPTED REQUESTS</span>
+          <span stat>5</span>
+        </div>
+        <mat-icon>pending_actions</mat-icon>
+      </div>
+
+      <div stat-card [ngStyle]="{ 'border-color': '#f6c23e' }">
+        <div text>
+          <span title [ngStyle]="{ color: '#f6c23e' }">ALL APP SESSIONS</span>
+          <span stat>18</span>
+        </div>
+        <mat-icon>insights</mat-icon>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="mat-display-1">Pending Sessions</h2>
+
+    <div *ngIf="sessions.length === 0" loader>
+      <p>No sessions found!</p>
+    </div>
+
+    <app-sessions-table
+      [hideTutor]="true"
+      [sessions]="sessions"
+      *ngIf="sessions.length > 0"
+    ></app-sessions-table>
   </section>
 </div>

@@ -1,4 +1,6 @@
-<h2 all-sessions-title class="mat-display-1">All Sessions</h2>
+<h2 all-sessions-title class="mat-display-1">
+  All {{ listType === ListType.student ? 'Student' : 'Tutor' }} Sessions
+</h2>
 
 <mat-tab-group
   mat-stretch-tabs
@@ -30,6 +32,8 @@
 
       <app-sessions-table
         [sessions]="sessions"
+        [hideStudent]="listType === ListType.student"
+        [hideTutor]="listType === ListType.tutor"
         *ngIf="!isFetchingSessions && sessions.length > 0"
       ></app-sessions-table>
     </div>

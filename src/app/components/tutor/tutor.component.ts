@@ -1,12 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import {
+  collection,
+  doc,
+  Firestore,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  Timestamp,
+  where
+} from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Session } from 'src/app/models/session.model';
 
 import { CoursesService } from '../../services/courses.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
@@ -19,6 +31,7 @@ export class TutorComponent implements OnInit {
   courseCtrl = new FormControl();
   filteredCourses: Observable<string[]>;
   selectedCourses: string[] = [];
+  sessions: Session[] = [];
 
   constructor(
     private auth: Auth,
@@ -59,6 +72,21 @@ export class TutorComponent implements OnInit {
         if (fUser.exists()) {
           this.selectedCourses = fUser.get('tutorInfo.courses') ?? [];
         }
+        this.sessions = (
+          await getDocs(
+            query(
+              collection(this.firestore, 'sessions').withConverter(
+                Session.converter
+              ),
+              where('tutor.id', '==', this.auth.currentUser.uid),
+              where('status', '==', 'pending'),
+              where('start', '>=', Timestamp.fromDate(new Date())),
+              orderBy('start', 'asc')
+            )
+          )
+        ).docs.map((d) => d.data());
+      } else {
+        this.router.navigateByUrl('/sign-in');
       }
     } catch (error: any) {
       this.snackBar.open(error.message, '', {
