@@ -43,6 +43,7 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
@@ -57,6 +58,8 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SignInComponent } from './components/sign-in.component';
 import { StudentComponent } from './components/student/student.component';
 import { TutorComponent } from './components/tutor/tutor.component';
+import { OrdinalDatePipe } from './ordinal-date.pipe';
+import { SessionsTableComponent } from './components/sessions-table/sessions-table.component';
 
 const routes: Route[] = [
   {
@@ -95,7 +98,9 @@ const routes: Route[] = [
     SchedulerComponent,
     SignInComponent,
     StudentComponent,
-    TutorComponent
+    TutorComponent,
+    OrdinalDatePipe,
+    SessionsTableComponent
   ],
   imports: [
     BrowserModule,
@@ -116,6 +121,7 @@ const routes: Route[] = [
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatTableModule,
     MatToolbarModule,
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,

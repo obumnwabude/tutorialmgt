@@ -16,8 +16,8 @@ service cloud.firestore {
 
     match /sessions/{sessionId} {
       allow create: if isOwner(request.resource.data.student.id);
-      allow read, update: if isOwner(request.data.tutor.id)
-        || isOwner(request.data.tutor.id);
+      allow read, update: if isOwner(resource.data.student.id)
+        || isOwner(resource.data.tutor.id);
       allow delete: if false;
     }
   }

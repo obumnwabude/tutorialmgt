@@ -52,3 +52,21 @@ snack-bar-container.mat-snack-bar-container {
   // for the time picker in scheduler form
   z-index: 100;
 }
+
+[loader] {
+  margin: 64px 0;
+  max-width: 1024px;
+
+  p {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+
+  div {
+    height: 256px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

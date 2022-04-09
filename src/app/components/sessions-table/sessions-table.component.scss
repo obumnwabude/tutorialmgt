@@ -1,0 +1,19 @@
+[table-container] {
+  overflow-x: auto;
+  display: grid;
+  max-width: 1024px;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+th.mat-header-cell {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+td.mat-cell,
+th.mat-header-cell {
+  padding-right: 24px;
+  padding-left: 24px;
+  white-space: nowrap;
+  border: 1px solid #e3e6f0;
+}
