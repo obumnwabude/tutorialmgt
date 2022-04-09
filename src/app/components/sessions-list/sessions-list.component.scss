@@ -58,11 +58,11 @@ mat-tab-group[sessions] {
 
   @keyframes tab-header-arrow-right {
     0% {
-      transform: translateX(-4px) rotate(45deg);
+      transform: translateX(4px) rotate(45deg);
     }
 
     100% {
-      transform: translateX(4px) rotate(45deg);
+      transform: translateX(-4px) rotate(45deg);
     }
   }
 
