@@ -57,10 +57,14 @@ export class RegisterComponent {
       console.error(error);
     }
     this.ngxLoader.stop();
-    this.snackBar.open(`Welcome ${user.displayName?.split(' ')[0]}!`, '', {
-      panelClass: ['snackbar-success'],
-      horizontalPosition: this.shp.value
-    });
+    this.snackBar.open(
+      `Welcome ${(user.displayName ?? user.email!).split(' ')[0]}!`,
+      '',
+      {
+        panelClass: ['snackbar-success'],
+        horizontalPosition: this.shp.value
+      }
+    );
     this.router.navigateByUrl('/');
   }
 }

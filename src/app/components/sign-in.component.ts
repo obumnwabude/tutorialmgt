@@ -49,10 +49,14 @@ export class SignInComponent {
 
   welcome(user: User) {
     this.ngxLoader.stop();
-    this.snackBar.open(`Welcome back ${user.displayName?.split(' ')[0]}!`, '', {
-      panelClass: ['snackbar-success'],
-      horizontalPosition: this.shp.value
-    });
+    this.snackBar.open(
+      `Welcome back ${(user.displayName ?? user.email!).split(' ')[0]}!`,
+      '',
+      {
+        panelClass: ['snackbar-success'],
+        horizontalPosition: this.shp.value
+      }
+    );
     this.router.navigateByUrl('/');
   }
 }
