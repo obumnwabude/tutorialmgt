@@ -98,7 +98,8 @@ exports.getTutors = functions.https.onCall(async (data, context) => {
       .get()
   ).docs
     .map((d) => {
-      const { displayName, email, uid } = d.data().authInfo;
+      const { displayName, email } = context.auth.token;
+      const uid = context.auth.uid;
       return { id: uid, email, name: displayName ?? '' };
     })
     .filter((d) => d.id !== context.auth.uid);

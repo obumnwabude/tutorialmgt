@@ -167,11 +167,22 @@ export class SchedulerComponent {
         });
         this.isGettingTutors = true;
         this.tutors = (await this.getTutors({ course, start, end })).data;
-        this.snackBar.open('Fetched tutors, kindly select one.', '', {
-          panelClass: ['snackbar-success'],
-          horizontalPosition: this.shp.value
-        });
-        this.tutor.setValue(this.tutors[0]);
+        if (this.tutors.length > 0) {
+          this.snackBar.open('Fetched tutors, kindly select one.', '', {
+            panelClass: ['snackbar-success'],
+            horizontalPosition: this.shp.value
+          });
+          this.tutor.setValue(this.tutors[0]);
+        } else {
+          this.snackBar.open(
+            "Couldn't find an available tutor for the time frame you are booking. Consider changing the time frame.",
+            '',
+            {
+              panelClass: ['snackbar-error'],
+              horizontalPosition: this.shp.value
+            }
+          );
+        }
       } catch (error: any) {
         this.snackBar.open(error.message, '', {
           panelClass: ['snackbar-error'],
