@@ -44,6 +44,14 @@
           <mat-icon>event_available</mat-icon> <span>Book A Session</span>
         </button>
       </p>
+      <p indent>
+        <a
+          mat-stroked-button
+          [routerLink]="'/sessions'"
+          [routerLinkActive]="['active-nav-link']"
+          ><mat-icon>stacked_line_chart</mat-icon> <span>All Sessions</span></a
+        >
+      </p>
       <mat-divider></mat-divider>
       <h3>
         <mat-icon>play_lesson</mat-icon
@@ -54,7 +62,7 @@
           mat-stroked-button
           [routerLink]="'/tutor'"
           [routerLinkActive]="['active-nav-link']"
-          ><mat-icon>terrain</mat-icon> <span>Overview</span></a
+          ><mat-icon>signal_cellular_alt</mat-icon> <span>Overview</span></a
         >
       </p>
       <mat-divider></mat-divider>

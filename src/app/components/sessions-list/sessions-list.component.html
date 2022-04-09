@@ -1,0 +1,35 @@
+<h2 all-sessions-title class="mat-display-1">All Sessions</h2>
+
+<mat-tab-group
+  mat-stretch-tabs
+  [(selectedIndex)]="focusedTabIndex"
+  (selectedTabChange)="fetchSessions()"
+  sessions
+>
+  <mat-tab *ngFor="let tab of tabs">
+    <ng-template mat-tab-label>
+      <mat-icon fontSet="material-icons-outlined" tab-label-icon>{{
+        tab.icon
+      }}</mat-icon>
+      <span tab-label-text>{{ tab.title }}</span>
+    </ng-template>
+
+    <div tab-content>
+      <div *ngIf="isFetchingSessions && sessions.length === 0" loader>
+        <p>Fetching sessions, please wait ...</p>
+        <div>
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      </div>
+
+      <div *ngIf="!isFetchingSessions && sessions.length === 0" loader>
+        <p>No sessions found!</p>
+      </div>
+
+      <app-sessions-table
+        [sessions]="sessions"
+        *ngIf="!isFetchingSessions && sessions.length > 0"
+      ></app-sessions-table>
+    </div>
+  </mat-tab>
+</mat-tab-group>

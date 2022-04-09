@@ -1,4 +1,10 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   addDoc,
@@ -89,7 +95,10 @@ export class SchedulerComponent {
   }
 
   async openCloseDialog() {
-    const dialogRef = this.dialog.open(CloseSchedulerDialog, { maxWidth: 384 });
+    const dialogRef = this.dialog.open(CloseSchedulerDialog, {
+      closeOnNavigation: false,
+      maxWidth: 384
+    });
     const result = await firstValueFrom(dialogRef.afterClosed());
     if (result) this.close();
   }

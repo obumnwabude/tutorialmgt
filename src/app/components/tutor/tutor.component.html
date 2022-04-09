@@ -1,38 +1,40 @@
-<section>
-  <h2>Courses You Teach</h2>
-  <mat-form-field courses [floatLabel]="'never'">
-    <mat-chip-list #chipList>
-      <mat-chip *ngFor="let course of selectedCourses">
-        {{ course }}
-      </mat-chip>
-      <input
-        placeholder="Add Courses..."
-        #courseInput
-        [formControl]="courseCtrl"
-        [matAutocomplete]="auto"
-        [matChipInputFor]="chipList"
-      />
-    </mat-chip-list>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option
-        *ngFor="let course of filteredCourses | async"
-        [value]="course"
-      >
-        <div (click)="optionClicked($event, course)">
-          <mat-checkbox
-            [checked]="selectedCourses.includes(course)"
-            (change)="toggleSelection(course)"
-            (click)="$event.stopPropagation()"
-          >
-            {{ course }}
-          </mat-checkbox>
-        </div>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <div text-right>
-    <button mat-raised-button (click)="saveCourses()" color="primary">
-      Update
-    </button>
-  </div>
-</section>
+<div page-container>
+  <section>
+    <h2>Courses You Teach</h2>
+    <mat-form-field courses [floatLabel]="'never'">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let course of selectedCourses">
+          {{ course }}
+        </mat-chip>
+        <input
+          placeholder="Add Courses..."
+          #courseInput
+          [formControl]="courseCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+        />
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let course of filteredCourses | async"
+          [value]="course"
+        >
+          <div (click)="optionClicked($event, course)">
+            <mat-checkbox
+              [checked]="selectedCourses.includes(course)"
+              (change)="toggleSelection(course)"
+              (click)="$event.stopPropagation()"
+            >
+              {{ course }}
+            </mat-checkbox>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div text-right>
+      <button mat-raised-button (click)="saveCourses()" color="primary">
+        Update
+      </button>
+    </div>
+  </section>
+</div>

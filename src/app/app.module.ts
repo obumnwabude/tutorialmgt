@@ -44,6 +44,7 @@ import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
@@ -60,6 +61,7 @@ import { StudentComponent } from './components/student/student.component';
 import { TutorComponent } from './components/tutor/tutor.component';
 import { OrdinalDatePipe } from './ordinal-date.pipe';
 import { SessionsTableComponent } from './components/sessions-table/sessions-table.component';
+import { SessionsListComponent } from './components/sessions-list/sessions-list.component';
 
 const routes: Route[] = [
   {
@@ -67,6 +69,12 @@ const routes: Route[] = [
     component: RegisterComponent,
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectLoggedInTo('/') }
+  },
+  {
+    path: 'sessions',
+    component: SessionsListComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
   },
   {
     path: 'sign-in',
@@ -100,7 +108,8 @@ const routes: Route[] = [
     StudentComponent,
     TutorComponent,
     OrdinalDatePipe,
-    SessionsTableComponent
+    SessionsTableComponent,
+    SessionsListComponent
   ],
   imports: [
     BrowserModule,
@@ -122,6 +131,7 @@ const routes: Route[] = [
     MatSidenavModule,
     MatSnackBarModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule,
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,

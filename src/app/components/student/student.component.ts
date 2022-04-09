@@ -71,7 +71,7 @@ export class StudentComponent implements OnDestroy, OnInit {
         this.snackBar.open(error.message, '', {
           panelClass: ['snackbar-error'],
           horizontalPosition: this.shp.value
-        })
+        });
       } finally {
         this.isFetchingSessions = false;
       }
@@ -82,7 +82,10 @@ export class StudentComponent implements OnDestroy, OnInit {
     if (this.isLargeScreen) {
       this.sideScheduler.value.open();
     } else {
-      this.bsRef = this.bs.open(SchedulerComponent, { disableClose: true });
+      this.bsRef = this.bs.open(SchedulerComponent, {
+        closeOnNavigation: false,
+        disableClose: true
+      });
       const closeSub = this.bsRef.instance.cancel.subscribe((_) =>
         this.bsRef.dismiss()
       );

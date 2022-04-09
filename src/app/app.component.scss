@@ -3,8 +3,11 @@ mat-toolbar[navbar] {
   z-index: 10;
   position: fixed;
   top: 0;
-  // left: 0;
+  left: 0;
   right: 0;
+
+  // explicitly set this because of 56px height in mobile set by material
+  height: 64px;
 }
 
 mat-sidenav-container,
@@ -18,12 +21,12 @@ mat-sidenav[snav] {
   background-image: linear-gradient(180deg, #0277bd 10%, #01579b 100%);
   background-size: cover;
   color: white !important;
+  max-width: 252px;
 
   h3 {
     font-size: 12px;
     font-weight: normal;
     margin-bottom: 16px;
-    // text-decoration: underline;
 
     mat-icon {
       font-size: 12px;
@@ -78,7 +81,6 @@ mat-sidenav-content {
 }
 
 main {
-  padding: 32px;
   width: 100%;
 }
 
