@@ -72,9 +72,13 @@ const routes: Route[] = [
   },
   {
     path: 'sessions',
-    component: SessionsListComponent,
     canActivate: [AuthGuard],
-    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
+    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') },
+    children: [
+      { path: 'student', component: SessionsListComponent },
+      { path: 'tutor', component: SessionsListComponent },
+      { path: '**', redirectTo: 'student', pathMatch: 'full' }
+    ]
   },
   {
     path: 'sign-in',

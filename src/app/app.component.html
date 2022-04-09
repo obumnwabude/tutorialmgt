@@ -47,9 +47,9 @@
       <p indent>
         <a
           mat-stroked-button
-          [routerLink]="'/sessions'"
+          [routerLink]="'/sessions/student'"
           [routerLinkActive]="['active-nav-link']"
-          ><mat-icon>stacked_line_chart</mat-icon> <span>All Sessions</span></a
+          ><mat-icon>auto_graph</mat-icon> <span>All Sessions</span></a
         >
       </p>
       <mat-divider></mat-divider>
@@ -63,6 +63,14 @@
           [routerLink]="'/tutor'"
           [routerLinkActive]="['active-nav-link']"
           ><mat-icon>signal_cellular_alt</mat-icon> <span>Overview</span></a
+        >
+      </p>
+      <p indent>
+        <a
+          mat-stroked-button
+          [routerLink]="'/sessions/tutor'"
+          [routerLinkActive]="['active-nav-link']"
+          ><mat-icon>stacked_line_chart</mat-icon> <span>All Sessions</span></a
         >
       </p>
       <mat-divider></mat-divider>

@@ -6,7 +6,9 @@
   (selectedTabChange)="fetchSessions()"
   sessions
 >
-  <mat-tab *ngFor="let tab of tabs">
+  <mat-tab
+    *ngFor="let tab of listType === ListType.student ? studentTabs : tutorTabs"
+  >
     <ng-template mat-tab-label>
       <mat-icon fontSet="material-icons-outlined" tab-label-icon>{{
         tab.icon

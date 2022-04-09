@@ -22,6 +22,7 @@ import { IsLargeScreenService } from '../../services/is-large-screen.service';
 import { SideSchedulerService } from '../../services/side-scheduler.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
 import { StudentComponentService } from '../../services/student-component.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './student.component.html',
@@ -38,6 +39,7 @@ export class StudentComponent implements OnDestroy, OnInit {
     private bs: MatBottomSheet,
     private firestore: Firestore,
     private _isLargeScreen: IsLargeScreenService,
+    private router: Router,
     private sideScheduler: SideSchedulerService,
     private shp: SnackbarHorizPosService,
     private snackBar: MatSnackBar,
@@ -75,6 +77,8 @@ export class StudentComponent implements OnDestroy, OnInit {
       } finally {
         this.isFetchingSessions = false;
       }
+    } else {
+      this.router.navigateByUrl('/sign-in');
     }
   }
 
