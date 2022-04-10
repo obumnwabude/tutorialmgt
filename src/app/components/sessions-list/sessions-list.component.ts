@@ -131,9 +131,15 @@ export class SessionsListComponent implements OnInit {
                 Session.converter
               ),
               ...(this.listType === ListType.student
-                ? [where('student.id', '==', this.auth.currentUser.uid)]
-                : [where('tutor.id', '==', this.auth.currentUser.uid)]),
-              ...this.studentTabs[this.focusedTabIndex].queries,
+                ? [
+                    where('student.id', '==', this.auth.currentUser.uid),
+                    ...this.studentTabs[this.focusedTabIndex].queries
+                  ]
+                : [
+                    where('tutor.id', '==', this.auth.currentUser.uid),
+                    ...this.tutorTabs[this.focusedTabIndex].queries
+                  ]),
+
               orderBy('start', 'asc')
             )
           )
