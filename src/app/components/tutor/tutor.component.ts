@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   arrayUnion,
@@ -11,7 +11,6 @@ import {
   query,
   setDoc,
   Timestamp,
-  updateDoc,
   where
 } from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
