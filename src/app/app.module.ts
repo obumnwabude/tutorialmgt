@@ -49,6 +49,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { CountUpModule } from 'ngx-countup';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 
@@ -129,6 +130,7 @@ const routes: Route[] = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CountUpModule,
     MatAutocompleteModule,
     MatBottomSheetModule,
     MatButtonModule,

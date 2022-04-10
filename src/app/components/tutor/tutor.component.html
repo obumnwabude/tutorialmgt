@@ -47,7 +47,7 @@
           <span title [ngStyle]="{ color: '#4e73df' }"
             >REQUESTED TUTORIALS</span
           >
-          <span stat>10</span>
+          <span stat [countUp]="10" [options]="{duration: 5}">0</span>
         </div>
         <mat-icon>display_settings</mat-icon>
       </div>
@@ -55,7 +55,7 @@
       <div stat-card [ngStyle]="{ 'border-color': '#1cc88a' }">
         <div text>
           <span title [ngStyle]="{ color: '#1cc88a' }">UPCOMING SESSIONS</span>
-          <span stat>1</span>
+          <span stat [countUp]="1" [options]="{duration: 5}">0</span>
         </div>
         <mat-icon>upcoming</mat-icon>
       </div>
@@ -63,7 +63,7 @@
       <div stat-card [ngStyle]="{ 'border-color': '#36b9cc' }">
         <div text>
           <span title [ngStyle]="{ color: '#36b9cc' }">ACCEPTED REQUESTS</span>
-          <span stat>5</span>
+          <span stat [countUp]="5" [options]="{duration: 5}">0</span>
         </div>
         <mat-icon>pending_actions</mat-icon>
       </div>
@@ -71,7 +71,7 @@
       <div stat-card [ngStyle]="{ 'border-color': '#f6c23e' }">
         <div text>
           <span title [ngStyle]="{ color: '#f6c23e' }">ALL APP SESSIONS</span>
-          <span stat>18</span>
+          <span stat [countUp]="18" [options]="{duration: 5}">0</span>
         </div>
         <mat-icon>insights</mat-icon>
       </div>

@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "ngx-auth-firebaseui": "^6.0.0",
+    "ngx-countup": "^13.0.0",
     "ngx-material-timepicker": "^5.5.3",
     "ngx-ui-loader": "^13.0.0",
     "rxjs": "~7.5.0",
