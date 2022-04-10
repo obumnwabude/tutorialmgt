@@ -98,7 +98,7 @@ const routes: Route[] = [
     canActivate: [AuthGuard],
     data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
   },
-  { path: '', redirectTo: '/tutor', pathMatch: 'full' },
+  { path: '', redirectTo: '/student', pathMatch: 'full' },
   { path: '**', component: SignInComponent }
 ];
 
