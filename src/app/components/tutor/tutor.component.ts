@@ -44,18 +44,10 @@ export class TutorComponent implements OnInit {
   ) {
     this.filteredCourses = this.courseCtrl.valueChanges.pipe(
       startWith(null),
-      map((v) => {
-        if (/^\s*$/.test(v)) {
-          this.courseCtrl.setValue('');
-          return '';
-        } else {
-          return v;
-        }
-      }),
-      map((course: string | null) =>
-        course
-          ? this.courses.all.filter((t) =>
-              course.toLowerCase().includes(t.toLowerCase())
+      map((s: string | null) =>
+        s
+          ? this.courses.all.filter((course) =>
+              course.toLowerCase().includes(s.toLowerCase().trim())
             )
           : this.courses.all.slice()
       )
