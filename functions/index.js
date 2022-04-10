@@ -36,15 +36,24 @@ exports.deleteFirestoreUser = functions.auth
 
 exports.createSession = functions.firestore
   .document('/sessions/{sessionId}')
-  .onCreate(async (_, context) => {
+  .onCreate(async (snap, context) => {
     await db
       .doc(`/sessions/${context.params['sessionId']}`)
-      .update({ id: context.params['sessionId'] })
+      .set({ id: context.params['sessionId'] }, { merge: true })
       .catch((error) => console.error(error));
 
     await db
       .doc('/sessions/counter')
       .set({ count: admin.firestore.FieldValue.increment(1) }, { merge: true })
+      .catch((error) => console.error(error));
+
+    const { end, start, student } = snap.data();
+    await db
+      .doc(`/users/${student.id}`)
+      .set(
+        { schedules: admin.firestore.FieldValue.arrayUnion({ end, start }) },
+        { merge: true }
+      )
       .catch((error) => console.error(error));
   });
 
@@ -95,6 +104,7 @@ exports.getTutors = functions.https.onCall(async (data, context) => {
       .firestore()
       .collection('users')
       .where('tutorInfo.courses', 'array-contains', data.course)
+      // .where('schedules', )
       .limit(100)
       .get()
   ).docs

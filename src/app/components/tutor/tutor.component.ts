@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
+  arrayUnion,
   collection,
   doc,
   Firestore,
@@ -154,23 +155,41 @@ export class TutorComponent implements OnInit {
     });
     const result = await firstValueFrom(dialogRef.afterClosed());
     if (result) {
-      try {
-        this.ngxLoader.start();
-        await updateDoc(
-          doc(this.firestore, `/sessions/${session.id}`),
-          { status }
-        );
-        this.snackBar.open('Session updated successfully.', '', {
-          panelClass: ['snackbar-success'],
-          horizontalPosition: this.shp.value
-        });
-        window.location.reload();
-      } catch (error: any) {
-        this.snackBar.open(error.message, '', {
-          panelClass: ['snackbar-error'],
-          horizontalPosition: this.shp.value
-        });
-        this.ngxLoader.stop();
+      if (this.auth.currentUser != null) {
+        try {
+          this.ngxLoader.start();
+          await setDoc(
+            doc(this.firestore, `/sessions/${session.id}`),
+            {
+              status
+            },
+            { merge: true }
+          );
+          const { start, end } = session;
+          await setDoc(
+            doc(this.firestore, `/users/${this.auth.currentUser.uid}`),
+            {
+              schedules: arrayUnion({
+                start: Timestamp.fromDate(start),
+                end: Timestamp.fromDate(end)
+              })
+            },
+            { merge: true }
+          );
+          this.snackBar.open('Session updated successfully.', '', {
+            panelClass: ['snackbar-success'],
+            horizontalPosition: this.shp.value
+          });
+          window.location.reload();
+        } catch (error: any) {
+          this.snackBar.open(error.message, '', {
+            panelClass: ['snackbar-error'],
+            horizontalPosition: this.shp.value
+          });
+          this.ngxLoader.stop();
+        }
+      } else {
+        this.router.navigateByUrl('/sign-in');
       }
     }
   }
