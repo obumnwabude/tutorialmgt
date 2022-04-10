@@ -34,18 +34,19 @@ exports.deleteFirestoreUser = functions.auth
       .catch((error) => console.error(error));
   });
 
-exports.increaseSessionCount = functions.firestore
+exports.createSession = functions.firestore
   .document('/sessions/{sessionId}')
-  .onCreate(
-    async (_, __) =>
-      await db
-        .doc('/sessions/counter')
-        .set(
-          { count: admin.firestore.FieldValue.increment(1) },
-          { merge: true }
-        )
-        .catch((error) => console.error(error))
-  );
+  .onCreate(async (_, context) => {
+    await db
+      .doc(`/sessions/${context.params['sessionId']}`)
+      .update({ id: context.params['sessionId'] })
+      .catch((error) => console.error(error));
+
+    await db
+      .doc('/sessions/counter')
+      .set({ count: admin.firestore.FieldValue.increment(1) }, { merge: true })
+      .catch((error) => console.error(error));
+  });
 
 exports.reduceSessionCount = functions.firestore
   .document('/sessions/{sessionId}')

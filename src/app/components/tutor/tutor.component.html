@@ -87,7 +87,10 @@
 
     <app-sessions-table
       [hideTutor]="true"
+      [isTutorManaging]="true"
       [sessions]="sessions"
+      (accept)="manageSession($event, 'accepted')"
+      (reject)="manageSession($event, 'rejected')"
       *ngIf="sessions.length > 0"
     ></app-sessions-table>
   </section>

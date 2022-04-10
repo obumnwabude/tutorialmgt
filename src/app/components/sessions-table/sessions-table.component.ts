@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Session } from '../../models/session.model';
 
@@ -10,11 +10,15 @@ import { Session } from '../../models/session.model';
 export class SessionsTableComponent implements OnInit {
   @Input() hideStudent = false;
   @Input() hideTutor = false;
+  @Input() isTutorManaging = false;
   @Input() sessions: Session[] = [];
   columnsToDisplay: string[] = [];
+  @Output() accept = new EventEmitter<Session>();
+  @Output() reject = new EventEmitter<Session>();
 
   ngOnInit() {
     this.columnsToDisplay = [
+      ...(this.isTutorManaging ? ['manage'] : []),
       'course',
       ...(this.hideStudent ? [] : ['student']),
       ...(this.hideTutor ? [] : ['tutor']),

@@ -12,6 +12,7 @@ export class Session {
   constructor(
     public course: string,
     public end: Date,
+    public id: string,
     public start: Date,
     public status: SessionStatus,
     public student: Person,
@@ -22,6 +23,7 @@ export class Session {
     return new Session(
       json['course'],
       json['end'].toDate(),
+      json['id'],
       json['start'].toDate(),
       json['status'],
       json['student'],
@@ -30,10 +32,11 @@ export class Session {
   }
 
   static toJSON(Session: Session) {
-    const { course, end, start, status, student, tutor } = Session;
+    const { course, end, id, start, status, student, tutor } = Session;
     return {
       course,
       end: Timestamp.fromDate(end),
+      id,
       start: Timestamp.fromDate(start),
       status,
       student,

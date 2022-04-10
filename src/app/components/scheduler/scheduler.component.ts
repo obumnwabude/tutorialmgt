@@ -237,7 +237,7 @@ export class SchedulerComponent {
         id: uid,
         name: displayName ?? ''
       };
-      return new Session(course, end, start, 'pending', student, tutor);
+      return new Session(course, end, '', start, 'pending', student, tutor);
     } else {
       throw this.router.navigateByUrl('/sign-in');
     }

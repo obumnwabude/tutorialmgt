@@ -54,6 +54,7 @@ import { NgxUiLoaderModule, NgxUiLoaderRouterModule } from 'ngx-ui-loader';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CloseSchedulerDialog } from './components/close-scheduler-dialog';
+import { ConfirmManageSessionDialog } from './components/confirm-manage-session-dialog';
 import { RegisterComponent } from './components/register.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SignInComponent } from './components/sign-in.component';
@@ -106,6 +107,7 @@ const routes: Route[] = [
   declarations: [
     AppComponent,
     CloseSchedulerDialog,
+    ConfirmManageSessionDialog,
     RegisterComponent,
     SchedulerComponent,
     SignInComponent,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   collection,
@@ -10,18 +10,21 @@ import {
   query,
   setDoc,
   Timestamp,
+  updateDoc,
   where
 } from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Session } from 'src/app/models/session.model';
 
+import { Session, SessionStatus } from '../../models/session.model';
 import { CoursesService } from '../../services/courses.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
+import { ConfirmManageSessionDialog } from '../confirm-manage-session-dialog';
 
 @Component({
   templateUrl: './tutor.component.html',
@@ -36,6 +39,7 @@ export class TutorComponent implements OnInit {
   constructor(
     private auth: Auth,
     private courses: CoursesService,
+    public dialog: MatDialog,
     private firestore: Firestore,
     private shp: SnackbarHorizPosService,
     private ngxLoader: NgxUiLoaderService,
@@ -139,6 +143,35 @@ export class TutorComponent implements OnInit {
         (value) => value.toLowerCase() === course.toLowerCase()
       );
       this.selectedCourses.splice(i, 1);
+    }
+  }
+
+  async manageSession(session: Session, status: SessionStatus) {
+    const dialogRef = this.dialog.open(ConfirmManageSessionDialog, {
+      closeOnNavigation: false,
+      data: status,
+      maxWidth: 384
+    });
+    const result = await firstValueFrom(dialogRef.afterClosed());
+    if (result) {
+      try {
+        this.ngxLoader.start();
+        await updateDoc(
+          doc(this.firestore, `/sessions/${session.id}`),
+          { status }
+        );
+        this.snackBar.open('Session updated successfully.', '', {
+          panelClass: ['snackbar-success'],
+          horizontalPosition: this.shp.value
+        });
+        window.location.reload();
+      } catch (error: any) {
+        this.snackBar.open(error.message, '', {
+          panelClass: ['snackbar-error'],
+          horizontalPosition: this.shp.value
+        });
+        this.ngxLoader.stop();
+      }
     }
   }
 }
