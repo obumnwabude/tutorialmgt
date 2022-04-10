@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { Session, SessionStatus } from '../../models/session.model';
@@ -46,15 +46,19 @@ export class TutorComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.filteredCourses = this.courseCtrl.valueChanges.pipe(
-      startWith(null),
-      map((s: string | null) =>
-        s
-          ? this.courses.all.filter((course) =>
-              course.toLowerCase().includes(s.toLowerCase().trim())
+    this.filteredCourses = combineLatest([
+      this.courseCtrl.valueChanges.pipe(startWith(null)),
+      this.courses.all
+    ]).pipe(
+      map((combined) => {
+        const str: string | null = combined[0];
+        const c: string[] = combined[1];
+        return str
+          ? c.filter((course) =>
+              course.toLowerCase().includes(str.toLowerCase().trim())
             )
-          : this.courses.all.slice()
-      )
+          : c.slice();
+      })
     );
   }
 

@@ -103,7 +103,10 @@
     [position]="'end'"
     [disableClose]="true"
   >
-    <app-scheduler (cancel)="sideScheduler.close()"></app-scheduler>
+    <app-scheduler
+      (cancel)="sideScheduler.close()"
+      *ngIf="sideScheduler.opened"
+    ></app-scheduler>
   </mat-sidenav>
 
   <mat-sidenav-content>

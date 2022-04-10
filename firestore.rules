@@ -9,6 +9,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.uid == uid;
     }
 
+    match /resources/courses {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /users/{userId} {
       allow create, read, update: if isOwner(userId);
       allow delete: if false;

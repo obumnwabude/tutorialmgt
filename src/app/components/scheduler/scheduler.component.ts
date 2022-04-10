@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   addDoc,
@@ -46,7 +40,7 @@ interface TutorRequest {
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss']
 })
-export class SchedulerComponent {
+export class SchedulerComponent implements OnInit {
   getTutors: HttpsCallable<TutorRequest, Person[]>;
   isGettingTutors = false;
   minDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -57,7 +51,7 @@ export class SchedulerComponent {
     Validators.required,
     this._validateEndTime.bind(this)
   ]);
-  course = new FormControl(this.courses.all[0], Validators.required);
+  course = new FormControl(null, Validators.required);
   tutor = new FormControl(null, Validators.required);
   session = new FormGroup({
     startDate: this.startDate,
@@ -69,7 +63,6 @@ export class SchedulerComponent {
   });
   tutors: Person[] = [];
   @Output() cancel = new EventEmitter<boolean>();
-  @ViewChild('sessionForm') sessionForm!: ElementRef<HTMLFormElement>;
 
   constructor(
     private auth: Auth,
@@ -86,12 +79,9 @@ export class SchedulerComponent {
     this.minDate.setHours(0, 0, 0, 0);
   }
 
-  close() {
-    this.course.setValue(this.courses.all[0]);
-    this.tutors = [];
-    this.sessionForm.nativeElement.reset();
-    this.session.reset();
-    this.cancel.emit();
+  async ngOnInit() {
+    const courses = await firstValueFrom(this.courses.all);
+    if (courses.length > 0) this.course.setValue(courses[0]);
   }
 
   async openCloseDialog() {
@@ -100,7 +90,7 @@ export class SchedulerComponent {
       maxWidth: 384
     });
     const result = await firstValueFrom(dialogRef.afterClosed());
-    if (result) this.close();
+    if (result) this.cancel.emit();
   }
 
   private _getFormValidationErrors(): any[] {
@@ -274,7 +264,7 @@ export class SchedulerComponent {
           panelClass: ['snackbar-success'],
           horizontalPosition: this.shp.value
         });
-        this.close();
+        this.cancel.emit();
       } catch (error: any) {
         console.error(error);
         this.snackBar.open(error.message, '', {

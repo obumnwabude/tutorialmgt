@@ -10,7 +10,6 @@
     [formGroup]="session"
     (ngSubmit)="saveSession()"
     session-form
-    #sessionForm
   >
     <div field date-time-fields>
       <h4>Start</h4>
@@ -105,7 +104,7 @@
       <h4>Course</h4>
       <mat-form-field [floatLabel]="'always'">
         <mat-select formControlName="course" (selectionChange)="tappedField()">
-          <mat-option *ngFor="let c of courses.all" [value]="c">
+          <mat-option *ngFor="let c of courses.all | async" [value]="c">
             {{ c }}
           </mat-option>
         </mat-select>

@@ -20,21 +20,21 @@ export class AppComponent implements AfterViewInit {
   primaryColor = '#03A9F4';
   SPINNER = SPINNER;
   @ViewChild('snav') snav!: MatSidenav;
-  @ViewChild('sideScheduler') private _sideScheduler!: MatSidenav;
+  @ViewChild('sideScheduler') public sideScheduler!: MatSidenav;
   year = new Date().getFullYear();
 
   constructor(
     public auth: Auth,
     private _isLargeScreen: IsLargeScreenService,
     private router: Router,
-    private sideScheduler: SideSchedulerService,
+    private _sideScheduler: SideSchedulerService,
     private studentComponent: StudentComponentService
   ) {
     this._isLargeScreen.value.subscribe((l) => (this.isLargeScreen = l));
   }
 
   ngAfterViewInit(): void {
-    this.sideScheduler.value = this._sideScheduler;
+    this._sideScheduler.value = this.sideScheduler;
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => {
