@@ -104,7 +104,7 @@ export class SessionsListComponent implements OnInit {
   constructor(
     private auth: Auth,
     private firestore: Firestore,
-    private router: Router,
+    public router: Router,
     private shp: SnackbarHorizPosService,
     private snackBar: MatSnackBar
   ) {

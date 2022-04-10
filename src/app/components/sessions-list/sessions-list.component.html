@@ -34,6 +34,9 @@
         [sessions]="sessions"
         [hideStudent]="listType === ListType.student"
         [hideTutor]="listType === ListType.tutor"
+        [isTutorManaging]="listType === ListType.tutor && focusedTabIndex === 1"
+        (accept)="router.navigateByUrl('/tutor#pending')"
+        (reject)="router.navigateByUrl('/tutor#pending')"
         *ngIf="!isFetchingSessions && sessions.length > 0"
       ></app-sessions-table>
     </div>

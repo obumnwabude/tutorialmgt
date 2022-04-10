@@ -178,7 +178,7 @@ const routes: Route[] = [
       return storage;
     }),
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })
   ],
   providers: [
     {
