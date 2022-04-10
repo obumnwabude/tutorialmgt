@@ -46,6 +46,7 @@ import {
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -63,6 +64,7 @@ import { TutorComponent } from './components/tutor/tutor.component';
 import { OrdinalDatePipe } from './ordinal-date.pipe';
 import { SessionsTableComponent } from './components/sessions-table/sessions-table.component';
 import { SessionsListComponent } from './components/sessions-list/sessions-list.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Route[] = [
   {
@@ -80,6 +82,12 @@ const routes: Route[] = [
       { path: 'tutor', component: SessionsListComponent },
       { path: '**', redirectTo: 'student', pathMatch: 'full' }
     ]
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: () => redirectUnauthorizedTo('/sign-in') }
   },
   {
     path: 'sign-in',
@@ -115,7 +123,8 @@ const routes: Route[] = [
     TutorComponent,
     OrdinalDatePipe,
     SessionsTableComponent,
-    SessionsListComponent
+    SessionsListComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -139,6 +148,7 @@ const routes: Route[] = [
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    MatTooltipModule,
     NgxUiLoaderModule,
     NgxUiLoaderRouterModule,
     NgxAuthFirebaseUIModule.forRoot(environment.firebase, () => undefined, {

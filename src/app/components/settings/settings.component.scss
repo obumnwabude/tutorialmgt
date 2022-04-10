@@ -1,0 +1,164 @@
+[page-title] {
+  text-decoration: underline double 0.6px;
+  margin: 32px 32px 0 32px;
+  text-align: center;
+}
+
+[img-container] {
+  width: 224px;
+  height: 224px;
+  margin: 32px auto;
+  background-color: lightgrey;
+  border-radius: 50%;
+  position: relative;
+
+  mat-icon[person] {
+    font-size: 144px;
+    margin-top: 32px;
+    margin-left: 40px;
+    opacity: 0.8;
+  }
+
+  button[mat-icon-button] {
+    // 500 level of material light blue palette
+    background-color: #03a9f4;
+    color: white;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    bottom: 8px;
+    right: 8px;
+  }
+}
+
+section {
+  margin: 0 auto 32px auto;
+  max-width: 312px;
+}
+
+[name-container] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  mat-form-field {
+    width: 80%;
+    max-width: 256px;
+  }
+
+  input[disabled] {
+    color: black;
+  }
+
+  button[mat-icon-button][edit-name] {
+    // 500 level of material light blue palette
+    background-color: #03a9f4;
+    color: white;
+  }
+
+  [manage-buttons] {
+    display: flex;
+    flex-direction: row-reverse;
+
+    [cancel-update-name] {
+      margin-left: 16px;
+    }
+
+    button[mat-icon-button] {
+      mat-icon {
+        font-size: 36px;
+      }
+    }
+  }
+}
+
+[email-container] {
+  mat-form-field {
+    width: 100%;
+  }
+
+  input[disabled] {
+    color: black;
+  }
+}
+
+[password-container] {
+  form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  h5 {
+    font-size: 16px;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.54);
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  [password-fields] {
+    max-width: 192px;
+  }
+
+  mat-form-field {
+    margin-bottom: 8px;
+  }
+
+  [password-buttons] {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: 16px;
+  }
+
+  button[cancel-password-editing] {
+    margin-bottom: 16px;
+  }
+
+  button[update-password] {
+    margin-bottom: 24px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  [page-title] {
+    margin-bottom: 32px;
+  }
+
+  [page-container] {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  [img-container] {
+    margin: 32px 32px 32px 0;
+  }
+
+  section {
+    min-width: 256px;
+  }
+}
+
+@media (min-width: 992px) {
+  [page-title] {
+    margin-bottom: 32px;
+    max-width: 712px;
+  }
+
+  [page-container] {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    max-width: 712px;
+  }
+
+  [img-container] {
+    margin: 0 64px 0 48px;
+  }
+
+  section {
+    min-width: 312px;
+  }
+}

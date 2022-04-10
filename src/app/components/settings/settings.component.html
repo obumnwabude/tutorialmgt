@@ -1,0 +1,141 @@
+<h2 page-title class="mat-display-1">Account Settings</h2>
+
+<div page-container>
+  <div img-container class="mat-elevation-z1">
+    <mat-icon person>person</mat-icon>
+    <button
+      mat-icon-button
+      class="mat-elevation-z2"
+      [matTooltip]="'Update Photo'"
+    >
+      <mat-icon>photo_camera</mat-icon>
+    </button>
+  </div>
+
+  <div>
+    <section name-container>
+      <mat-form-field [hideRequiredMarker]="true" [floatLabel]="'always'">
+        <mat-label>Name</mat-label>
+        <input matInput [formControl]="name" type="text" #nameInput required />
+        <mat-error *ngIf="name.invalid">Name is required</mat-error>
+      </mat-form-field>
+      <button
+        mat-icon-button
+        class="mat-elevation-z2"
+        edit-name
+        *ngIf="!isEditingName"
+        (click)="isEditingName = true; name.enable(); nameInput.focus()"
+        [matTooltip]="'Edit Name'"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <div manage-buttons *ngIf="isEditingName">
+        <button
+          mat-icon-button
+          color="primary"
+          [matTooltip]="'Update Name'"
+          (click)="updateName()"
+        >
+          <mat-icon [ngStyle]="{ color: '#4caf50' }">check_circle</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="primary"
+          cancel-update-name
+          (click)="
+            isEditingName = false;
+            name.disable();
+            name.setValue(auth.currentUser?.displayName)
+          "
+        >
+          <mat-icon
+            [ngStyle]="{ color: '#aaa' }"
+            [matTooltip]="'Stop Editing Name'"
+            >cancel</mat-icon
+          >
+        </button>
+      </div>
+    </section>
+
+    <section email-container>
+      <mat-form-field [floatLabel]="'always'">
+        <mat-label>Email</mat-label>
+        <input matInput [value]="auth.currentUser!.email" disabled />
+        <mat-hint>Email is permanent</mat-hint>
+      </mat-form-field>
+    </section>
+
+    <section password-container>
+      <h5>Change Password</h5>
+      <form [formGroup]="password" #passwordForm>
+        <div password-fields>
+          <mat-form-field>
+            <mat-label>Old Password</mat-label>
+            <input
+              matInput
+              [formControl]="oldPassword"
+              minlength="8"
+              required
+              (blur)="editingPassword()"
+            />
+            <mat-error *ngIf="oldPassword.invalid">{{
+              oldPassword.hasError('required')
+                ? 'Required'
+                : 'At least 8 characters'
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>New Password</mat-label>
+            <input
+              matInput
+              [formControl]="newPassword"
+              minlength="8"
+              required
+              (blur)="editingPassword()"
+            />
+            <mat-error *ngIf="newPassword.invalid">{{
+              newPassword.hasError('required')
+                ? 'Required'
+                : 'At least 8 characters'
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Confirm Password</mat-label>
+            <input
+              matInput
+              [formControl]="confirmPassword"
+              minlength="8"
+              required
+              (blur)="editingPassword()"
+            />
+            <mat-error *ngIf="confirmPassword.invalid">{{
+              confirmPasswordError()
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div password-buttons *ngIf="isEditingPassword">
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            update-password
+            (click)="updatePassword()"
+            [matTooltip]="'Update Password'"
+          >
+            Update
+          </button>
+          <button
+            mat-stroked-button
+            color="primary"
+            cancel-password-editing
+            type="reset"
+            (click)="resetEditingPassword()"
+            [matTooltip]="'Stop Editing Password'"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

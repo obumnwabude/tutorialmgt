@@ -71,6 +71,17 @@ snack-bar-container.mat-snack-bar-container {
   }
 }
 
+h2.mat-display-1 {
+  text-decoration: underline double 0.6px;
+}
+
 [page-container] {
   padding: 32px;
+}
+
+[name-container],
+[email-container] {
+  .mat-form-field-label {
+    font-size: 20px;
+  }
 }

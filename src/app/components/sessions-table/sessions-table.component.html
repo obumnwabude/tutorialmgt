@@ -7,15 +7,17 @@
           mat-icon-button
           (click)="this.accept.emit(session)"
           color="primary"
+          [matTooltip]="'Accept Session'"
         >
-          <mat-icon [ngStyle]="{'color':'#4caf50'}">check_circle</mat-icon>
+          <mat-icon [ngStyle]="{ color: '#4caf50' }">check_circle</mat-icon>
         </button>
         <button
           mat-icon-button
           (click)="this.reject.emit(session)"
           color="primary"
+          [matTooltip]="'Reject Session'"
         >
-          <mat-icon [ngStyle]="{'color':'#f44336'}">cancel</mat-icon>
+          <mat-icon [ngStyle]="{ color: '#f44336' }">cancel</mat-icon>
         </button>
       </td>
     </ng-container>

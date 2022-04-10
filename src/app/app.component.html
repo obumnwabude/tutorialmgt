@@ -79,6 +79,14 @@
         ><span>&nbsp;&nbsp;&nbsp;ACCOUNT SETTINGS</span>
       </h3>
       <p indent>
+        <a
+          mat-stroked-button
+          [routerLink]="'/settings'"
+          [routerLinkActive]="['active-nav-link']"
+          ><mat-icon>manage_accounts</mat-icon> <span>Account Settings</span></a
+        >
+      </p>
+      <p indent>
         <button mat-stroked-button (click)="signOut()">
           <mat-icon>person_remove</mat-icon> <span>Sign Out</span>
         </button>
