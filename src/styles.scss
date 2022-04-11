@@ -40,6 +40,10 @@ snack-bar-container.mat-snack-bar-container {
   margin-right: 8px;
 }
 
+[spacer] {
+  flex: 1 1 auto;
+}
+
 [text-right] {
   text-align: right;
 }

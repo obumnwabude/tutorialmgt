@@ -14,6 +14,28 @@
     <mat-icon>menu</mat-icon>
   </button>
   <h1>TMS</h1>
+  <span spacer></span>
+  <div
+    img-container
+    [routerLink]="'/settings'"
+    *ngIf="auth.currentUser"
+    class="mat-elevation-z1"
+    [matTooltip]="'Account Settings'"
+  >
+    <mat-icon person *ngIf="!auth.currentUser?.photoURL">person</mat-icon>
+    <div
+      image-display
+      *ngIf="auth.currentUser?.photoURL"
+      [ngStyle]="{
+        'background-image': 'url(' + auth.currentUser?.photoURL + ')'
+      }"
+    ></div>
+    <img
+      *ngIf="auth.currentUser?.photoURL"
+      [src]="auth.currentUser?.photoURL"
+      alt=""
+    />
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container>
