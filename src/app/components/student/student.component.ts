@@ -21,6 +21,7 @@ import { SchedulerComponent } from '../scheduler/scheduler.component';
 import { IsLargeScreenService } from '../../services/is-large-screen.service';
 import { SideSchedulerService } from '../../services/side-scheduler.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
+import { StatsService } from '../../services/stats.service';
 import { StudentComponentService } from '../../services/student-component.service';
 import { Router } from '@angular/router';
 
@@ -43,6 +44,7 @@ export class StudentComponent implements OnDestroy, OnInit {
     private sideScheduler: SideSchedulerService,
     private shp: SnackbarHorizPosService,
     private snackBar: MatSnackBar,
+    public stats: StatsService,
     private _studentComponent: StudentComponentService
   ) {
     this._isLargeScreen.value.subscribe((v) => (this.isLargeScreen = v));

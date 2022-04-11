@@ -22,7 +22,7 @@ service cloud.firestore {
     match /sessions/{sessionId} {
       allow create: if isOwner(request.resource.data.student.id);
       allow read, update: if isOwner(resource.data.student.id)
-        || isOwner(resource.data.tutor.id);
+        || isOwner(resource.data.tutor.id) || sessionId == 'counter';
       allow delete: if false;
     }
   }

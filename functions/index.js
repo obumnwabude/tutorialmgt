@@ -47,11 +47,23 @@ exports.createSession = functions.firestore
       .set({ count: admin.firestore.FieldValue.increment(1) }, { merge: true })
       .catch((error) => console.error(error));
 
-    const { end, start, student } = snap.data();
+    const { end, start, student, tutor } = snap.data();
     await db
       .doc(`/users/${student.id}`)
       .set(
-        { schedules: admin.firestore.FieldValue.arrayUnion({ end, start }) },
+        {
+          schedules: admin.firestore.FieldValue.arrayUnion({ end, start }),
+          stats: { scheduled: admin.firestore.FieldValue.increment(1) }
+        },
+        { merge: true }
+      )
+      .catch((error) => console.error(error));
+    await db
+      .doc(`/users/${tutor.id}`)
+      .set(
+        {
+          stats: { requested: admin.firestore.FieldValue.increment(1) }
+        },
         { merge: true }
       )
       .catch((error) => console.error(error));
@@ -100,17 +112,19 @@ exports.getTutors = functions.https.onCall(async (data, context) => {
   }
 
   return (
-    await admin
-      .firestore()
-      .collection('users')
-      .where('tutorInfo.courses', 'array-contains', data.course)
-      // .where('schedules', )
-      .limit(100)
-      .get()
-  ).docs
-    .map((d) => {
-      const { displayName, email, uid } = d.data().authInfo;
-      return { id: uid, email, name: displayName ?? '' };
-    })
-    .filter((d) => d.id !== context.auth.uid);
+    (
+      await admin
+        .firestore()
+        .collection('users')
+        .where('tutorInfo.courses', 'array-contains', data.course)
+        // .where('schedules', )
+        .limit(100)
+        .get()
+    ).docs
+      .map((d) => {
+        const { displayName, email, uid } = d.data().authInfo;
+        return { id: uid, email, name: displayName ?? '' };
+      })
+      .filter((d) => d.id !== context.auth.uid)
+  );
 });

@@ -10,7 +10,6 @@ mat-toolbar[navbar] {
   height: 64px;
 }
 
-
 [img-container] {
   margin-right: 16px;
   width: 48px;
@@ -21,6 +20,8 @@ mat-toolbar[navbar] {
 
   mat-icon[person] {
     opacity: 0.8;
+    margin-left: 12px;
+    margin-top: 12px;
   }
 
   [image-display] {
@@ -41,7 +42,6 @@ mat-toolbar[navbar] {
     opacity: 0;
   }
 }
-
 
 mat-sidenav-container,
 mat-sidenav-content {

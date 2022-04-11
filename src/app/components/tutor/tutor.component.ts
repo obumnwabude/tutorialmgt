@@ -7,6 +7,7 @@ import {
   Firestore,
   getDoc,
   getDocs,
+  increment,
   orderBy,
   query,
   setDoc,
@@ -24,6 +25,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Session, SessionStatus } from '../../models/session.model';
 import { CoursesService } from '../../services/courses.service';
 import { SnackbarHorizPosService } from '../../services/snackbar-horiz-pos.service';
+import { StatsService } from '../../services/stats.service';
 import { ConfirmManageSessionDialog } from '../confirm-manage-session-dialog';
 
 @Component({
@@ -42,6 +44,7 @@ export class TutorComponent implements OnInit {
     public dialog: MatDialog,
     private firestore: Firestore,
     private shp: SnackbarHorizPosService,
+    public stats: StatsService,
     private ngxLoader: NgxUiLoaderService,
     private router: Router,
     private snackBar: MatSnackBar
@@ -175,7 +178,8 @@ export class TutorComponent implements OnInit {
               schedules: arrayUnion({
                 start: Timestamp.fromDate(start),
                 end: Timestamp.fromDate(end)
-              })
+              }),
+              stats: { accepted: increment(1) }
             },
             { merge: true }
           );
