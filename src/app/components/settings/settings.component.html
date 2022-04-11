@@ -2,11 +2,36 @@
 
 <div page-container>
   <div img-container class="mat-elevation-z1">
-    <mat-icon person>person</mat-icon>
+    <input
+      type="file"
+      accept="image/*"
+      (change)="pickedImage($event)"
+      #imageInput
+      hidden
+    />
+    <mat-icon person *ngIf="!auth.currentUser?.photoURL && !isUploadingPhoto"
+      >person</mat-icon
+    >
+    <div image-loader *ngIf="isUploadingPhoto">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+    <div
+      image-display
+      *ngIf="auth.currentUser?.photoURL && !isUploadingPhoto"
+      [ngStyle]="{
+        'background-image': 'url(' + auth.currentUser?.photoURL + ')'
+      }"
+    ></div>
+    <img
+      *ngIf="auth.currentUser?.photoURL && !isUploadingPhoto"
+      [src]="auth.currentUser?.photoURL"
+      alt=""
+    />
     <button
       mat-icon-button
       class="mat-elevation-z2"
       [matTooltip]="'Update Photo'"
+      (click)="tappedPicker() ? imageInput.click() : null"
     >
       <mat-icon>photo_camera</mat-icon>
     </button>

@@ -19,6 +19,31 @@
     opacity: 0.8;
   }
 
+  [image-loader] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  [image-display] {
+    position: absolute;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  [image-display],
+  img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    opacity: 0;
+  }
+
   button[mat-icon-button] {
     // 500 level of material light blue palette
     background-color: #03a9f4;

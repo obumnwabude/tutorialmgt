@@ -8,6 +8,12 @@ import {
 } from '@angular/fire/auth';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import {
+  Storage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from '@angular/fire/storage';
+import {
   AbstractControl,
   FormControl,
   FormGroup,
@@ -24,6 +30,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 export class SettingsComponent {
   isEditingName = false;
   isEditingPassword = false;
+  isUploadingPhoto = false;
   name = new FormControl(
     {
       value: this.auth.currentUser?.displayName,
@@ -56,8 +63,23 @@ export class SettingsComponent {
     private firestore: Firestore,
     private ngxLoader: NgxUiLoaderService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private storage: Storage
   ) {}
+
+  errorFeedback(message: string) {
+    this.snackBar.open(message, '', {
+      panelClass: ['snackbar-error'],
+      horizontalPosition: 'center'
+    });
+  }
+
+  successFeedback(message: string) {
+    this.snackBar.open(message, '', {
+      panelClass: ['snackbar-success'],
+      horizontalPosition: 'center'
+    });
+  }
 
   resetEditingPassword() {
     this.password.reset();
@@ -100,10 +122,7 @@ export class SettingsComponent {
 
   async updateName() {
     if (this.name.invalid) {
-      this.snackBar.open('First fill out your name or cancel.', '', {
-        panelClass: ['snackbar-error'],
-        horizontalPosition: 'center'
-      });
+      this.errorFeedback('First fill out your name or cancel.');
     } else if (this.auth.currentUser != null) {
       try {
         this.ngxLoader.start();
@@ -115,17 +134,11 @@ export class SettingsComponent {
           { authInfo: { displayName: this.name.value } },
           { merge: true }
         );
-        this.snackBar.open('Name successfully updated', '', {
-          panelClass: ['snackbar-success'],
-          horizontalPosition: 'center'
-        });
+        this.successFeedback('Name successfully updated');
         this.isEditingName = false;
         this.name.disable();
       } catch (error: any) {
-        this.snackBar.open(error.message, '', {
-          panelClass: ['snackbar-error'],
-          horizontalPosition: 'center'
-        });
+        this.errorFeedback(error.message);
       } finally {
         this.ngxLoader.stop();
       }
@@ -136,10 +149,7 @@ export class SettingsComponent {
 
   async updatePassword() {
     if (this.password.invalid) {
-      this.snackBar.open('Please resolve all errors or cancel.', '', {
-        panelClass: ['snackbar-error'],
-        horizontalPosition: 'center'
-      });
+      this.errorFeedback('Please resolve all errors or cancel.');
     } else if (this.auth.currentUser != null) {
       try {
         this.ngxLoader.start();
@@ -151,25 +161,53 @@ export class SettingsComponent {
           )
         );
         await updatePassword(this.auth.currentUser, this.newPassword.value);
-        this.snackBar.open('Password successfully updated', '', {
-          panelClass: ['snackbar-success'],
-          horizontalPosition: 'center'
-        });
+        this.successFeedback('Password successfully updated');
         this.resetEditingPassword();
       } catch (error: any) {
-        if (error.code === 'auth/wrong-password') {
-          this.snackBar.open('Wrong old password', '', {
-            panelClass: ['snackbar-error'],
-            horizontalPosition: 'center'
-          });
-        } else {
-          this.snackBar.open(error.message, '', {
-            panelClass: ['snackbar-error'],
-            horizontalPosition: 'center'
-          });
-        }
+        const message =
+          error.code === 'auth/wrong-password'
+            ? 'Wrong old password'
+            : error.message;
+        this.errorFeedback(message);
       } finally {
         this.ngxLoader.stop();
+      }
+    } else {
+      this.router.navigateByUrl('/sign-in');
+    }
+  }
+
+  tappedPicker(): boolean {
+    if (this.isUploadingPhoto) {
+      this.errorFeedback('Photo is uploading, please wait...');
+      return false;
+    } else return true;
+  }
+
+  async pickedImage(event: any) {
+    event.preventDefault();
+    if (event.target.files.length === 0) return;
+    const file = event.target.files[0];
+    if (!file.type.match('image.*')) {
+      this.errorFeedback('Please select only images');
+    } else if (file.size > 500000) {
+      this.errorFeedback('Maximum of 500kb please');
+    } else if (this.auth.currentUser) {
+      this.isUploadingPhoto = true;
+      const fileNameParts = file.name.split('.');
+      const ext = fileNameParts[fileNameParts.length - 1];
+      const photoPath = `/profilePhotos/${this.auth.currentUser.uid}/photo.${ext}`;
+      const photoRef = ref(this.storage, photoPath);
+      try {
+        await uploadBytes(photoRef, file);
+        await updateProfile(this.auth.currentUser, {
+          photoURL: await getDownloadURL(photoRef)
+        });
+        await this.auth.currentUser.reload();
+      } catch (error: any) {
+        this.errorFeedback(error.message);
+      } finally {
+        this.isUploadingPhoto = false;
       }
     } else {
       this.router.navigateByUrl('/sign-in');
