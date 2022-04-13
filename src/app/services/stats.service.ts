@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   collection,
@@ -25,6 +25,7 @@ export class StatsService {
   tutorUpcoming = of(0);
 
   constructor(
+    private appRef: ApplicationRef,
     private auth: Auth,
     private firestore: Firestore,
     private snackBar: MatSnackBar
@@ -51,6 +52,7 @@ export class StatsService {
             this.accepted = of(snap.data()['stats']?.['accepted'] ?? 0);
             this.requested = of(snap.data()['stats']?.['requested'] ?? 0);
             this.scheduled = of(snap.data()['stats']?.['scheduled'] ?? 0);
+            this.appRef.tick();
           }
         },
         error: (error) =>
@@ -62,7 +64,8 @@ export class StatsService {
             .onAction()
             .subscribe(() => window.location.reload())
       }
-    ); onSnapshot(
+    );
+    onSnapshot(
       query(
         collection(this.firestore, 'sessions'),
         where('student.id', '==', this.auth.currentUser?.uid ?? ''),
@@ -71,7 +74,10 @@ export class StatsService {
       ),
       {
         next: (snap) => {
-          if (snap.docs.length > 0) this.studentPending = of(snap.docs.length);
+          if (snap.docs.length > 0) {
+            this.studentPending = of(snap.docs.length);
+            this.appRef.tick();
+          }
         },
         error: (error) =>
           this.snackBar
@@ -83,27 +89,30 @@ export class StatsService {
             .subscribe(() => window.location.reload())
       }
     );
-     onSnapshot(
-       query(
-         collection(this.firestore, 'sessions'),
-         where('student.id', '==', this.auth.currentUser?.uid ?? ''),
-         where('status', '==', 'accepted'),
-         where('start', '>=', Timestamp.fromDate(new Date()))
-       ),
-       {
-         next: (snap) => {
-           if (snap.docs.length > 0) this.studentUpcoming = of(snap.docs.length);
-         },
-         error: (error) =>
-           this.snackBar
-             .open(error.message, 'REFRESH PAGE', {
-               panelClass: ['snackbar-error'],
-               horizontalPosition: 'center'
-             })
-             .onAction()
-             .subscribe(() => window.location.reload())
-       }
-     );
+    onSnapshot(
+      query(
+        collection(this.firestore, 'sessions'),
+        where('student.id', '==', this.auth.currentUser?.uid ?? ''),
+        where('status', '==', 'accepted'),
+        where('start', '>=', Timestamp.fromDate(new Date()))
+      ),
+      {
+        next: (snap) => {
+          if (snap.docs.length > 0) {
+            this.studentUpcoming = of(snap.docs.length);
+            this.appRef.tick();
+          }
+        },
+        error: (error) =>
+          this.snackBar
+            .open(error.message, 'REFRESH PAGE', {
+              panelClass: ['snackbar-error'],
+              horizontalPosition: 'center'
+            })
+            .onAction()
+            .subscribe(() => window.location.reload())
+      }
+    );
     onSnapshot(
       query(
         collection(this.firestore, 'sessions'),
@@ -113,7 +122,10 @@ export class StatsService {
       ),
       {
         next: (snap) => {
-          if (snap.docs.length > 0) this.tutorUpcoming = of(snap.docs.length);
+          if (snap.docs.length > 0) {
+            this.tutorUpcoming = of(snap.docs.length);
+            this.appRef.tick();
+          }
         },
         error: (error) =>
           this.snackBar
