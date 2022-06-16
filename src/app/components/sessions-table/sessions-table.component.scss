@@ -17,3 +17,16 @@ th.mat-header-cell {
   white-space: nowrap;
   border: 1px solid #e3e6f0;
 }
+
+td.mat-column-student,
+td.mat-column-tutor {
+  > div {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+[popup-menu-button] {
+  margin-left: 32px;
+}

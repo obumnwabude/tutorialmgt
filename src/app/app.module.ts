@@ -1,8 +1,7 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { connectAuthEmulator, provideAuth, getAuth } from '@angular/fire/auth';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
   AuthGuard,
   redirectLoggedInTo,
@@ -10,18 +9,18 @@ import {
 } from '@angular/fire/auth-guard';
 import {
   connectFirestoreEmulator,
-  provideFirestore,
-  getFirestore
+  getFirestore,
+  provideFirestore
 } from '@angular/fire/firestore';
 import {
   connectFunctionsEmulator,
-  provideFunctions,
-  getFunctions
+  getFunctions,
+  provideFunctions
 } from '@angular/fire/functions';
 import {
   connectStorageEmulator,
-  provideStorage,
-  getStorage
+  getStorage,
+  provideStorage
 } from '@angular/fire/storage';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -29,13 +28,14 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -47,6 +47,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Route, RouterModule } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { CountUpModule } from 'ngx-countup';
@@ -59,13 +61,13 @@ import { CloseSchedulerDialog } from './components/close-scheduler-dialog';
 import { ConfirmManageSessionDialog } from './components/confirm-manage-session-dialog';
 import { RegisterComponent } from './components/register.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
+import { SessionsListComponent } from './components/sessions-list/sessions-list.component';
+import { SessionsTableComponent } from './components/sessions-table/sessions-table.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { SignInComponent } from './components/sign-in.component';
 import { StudentComponent } from './components/student/student.component';
 import { TutorComponent } from './components/tutor/tutor.component';
 import { OrdinalDatePipe } from './ordinal-date.pipe';
-import { SessionsTableComponent } from './components/sessions-table/sessions-table.component';
-import { SessionsListComponent } from './components/sessions-list/sessions-list.component';
-import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Route[] = [
   {
@@ -130,6 +132,7 @@ const routes: Route[] = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ClipboardModule,
     CountUpModule,
     MatAutocompleteModule,
     MatBottomSheetModule,
@@ -142,6 +145,7 @@ const routes: Route[] = [
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSelectModule,

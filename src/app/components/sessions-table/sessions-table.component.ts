@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Session } from '../../models/session.model';
 
@@ -16,6 +17,8 @@ export class SessionsTableComponent implements OnInit {
   @Output() accept = new EventEmitter<Session>();
   @Output() reject = new EventEmitter<Session>();
 
+  constructor(private snackbar: MatSnackBar) {}
+
   ngOnInit() {
     this.columnsToDisplay = [
       ...(this.isTutorManaging ? ['manage'] : []),
@@ -27,5 +30,11 @@ export class SessionsTableComponent implements OnInit {
       'end-date',
       'end-time'
     ];
+  }
+
+  copyFeedback(): void {
+    this.snackbar.open('Email copied to clipboard', '', {
+      panelClass: ['snackbar-success']
+    });
   }
 }
